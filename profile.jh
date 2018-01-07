@@ -1,0 +1,148 @@
+entity Profile{
+ 	userId Long required,
+    description TextBlob required,
+    active Boolean,
+    image ImageBlob,
+    video1 Blob,
+    video2 Blob,
+    backgroundChecked Boolean,
+  
+    created Instant required,
+    updated Instant 
+    
+}
+
+entity Subject{
+	name String required,
+    description String required,
+    active Boolean,
+    created Instant required,
+    updated Instant
+}
+
+entity ProfileSubject{
+}
+
+entity Level{
+	level LevelValue required
+}
+
+entity Chapters{
+	description String required minlength(1) maxlength(100),
+    numberOfClasses Integer required min(1)
+}
+
+
+entity Rate{
+	rate BigDecimal required min(10),
+    created Instant required,
+    updated Instant
+}
+
+entity ClassLength{
+  classLength Integer required min(30) max(60),
+  active Boolean required,
+  created Instant required,
+  updated Instant
+}
+
+entity Education{
+	course String required minlength(1) maxlength(50),
+    university String,
+    start Integer required,
+    end Integer 
+}
+
+entity Experience{
+	title String required,
+    company String,
+    begin LocalDate required,
+    end LocalDate,
+    description Blob
+}
+
+
+
+entity Review{
+	rating Integer required min(1) max(5),
+    comments TextBlob required,
+    createdDate LocalDate required,
+    //this will be the student providing the review
+    userId Long required
+}
+
+entity Award{
+	name String required,
+    receivedDate LocalDate required,
+    institute String required
+  
+}
+
+/*Location available will be provided by configuration
+* so avoiding constraints for country
+*/
+entity Location{
+	city String required,
+    state String maxlength(2) required,
+    country String maxlength(3) required
+}
+
+
+entity Availability{
+    dayOfWeek DayOfWeek required,
+    availabile Boolean,
+    timeZone TimeZones required
+    
+}
+
+enum LanguageValue {
+    ENGLISH, SPANISH, HINDI, MALAYALAM, KANNADA, TELUGU, ORIYA, MARATHI, URDU, PUNJABI, TAMIL
+}
+
+enum DayOfWeek{
+	SUN, MON, TUE, WED, THU, FRI, SAT
+}
+
+enum TimeZones{
+	IST, CST, PST, EST
+}
+enum LevelValue{
+	BEGINNER,
+    INTERMEDIATE,
+    ADVANCED
+}
+
+
+entity Language{
+	language LanguageValue
+}
+
+relationship ManyToMany {
+    Profile{language} to Language{profile}
+}
+
+relationship OneToMany {
+    Profile{profileSubject} to ProfileSubject,
+	Profile{education} to Education,
+    Profile{experience} to Experience,
+    Profile{award} to Award,
+    Profile{availability} to Availability,
+    ProfileSubject{review} to Review,
+    Level{chapters} to Chapters,
+    ProfileSubject{level} to Level,
+    ProfileSubject{rate} to Rate
+}
+
+relationship OneToOne {
+	Profile{location} to Location
+    ProfileSubject{subject} to Subject
+}
+
+relationship ManyToOne {
+	Rate{classLength} to ClassLength
+}
+
+dto * with mapstruct
+service all with serviceImpl
+paginate Profile, Review, ProfileSubject with pagination
+search Profile, ProfileSubject with elasticsearch

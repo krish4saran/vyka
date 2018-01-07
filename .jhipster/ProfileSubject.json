@@ -1,0 +1,45 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "profile",
+            "otherEntityName": "profile",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "subject",
+            "otherEntityName": "subject",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "profileSubject"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "review",
+            "otherEntityName": "review",
+            "otherEntityRelationshipName": "profileSubject"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "level",
+            "otherEntityName": "level",
+            "otherEntityRelationshipName": "profileSubject"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "rate",
+            "otherEntityName": "rate",
+            "otherEntityRelationshipName": "profileSubject"
+        }
+    ],
+    "fields": [],
+    "changelogDate": "20180107191733",
+    "entityTableName": "profile_subject",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "searchEngine": "elasticsearch"
+}

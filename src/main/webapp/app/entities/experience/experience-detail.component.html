@@ -1,0 +1,50 @@
+
+<div *ngIf="experience">
+    <h2><span>Experience</span> {{experience.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Title</span></dt>
+        <dd>
+            <span>{{experience.title}}</span>
+        </dd>
+        <dt><span>Company</span></dt>
+        <dd>
+            <span>{{experience.company}}</span>
+        </dd>
+        <dt><span>Begin</span></dt>
+        <dd>
+            <span>{{experience.begin | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>End</span></dt>
+        <dd>
+            <span>{{experience.end | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+            <div *ngIf="experience.description">
+                <a (click)="openFile(experience.descriptionContentType, experience.description)">open</a>
+                {{experience.descriptionContentType}}, {{byteSize(experience.description)}}
+            </div>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+            <div *ngIf="experience.profileId">
+                <a [routerLink]="['/profile', experience.profileId]">{{experience.profileId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'experience/'+ experience.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

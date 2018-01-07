@@ -1,0 +1,76 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myEducationLabel">Create or edit a Education</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!education.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="education.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_course">Course</label>
+            <input type="text" class="form-control" name="course" id="field_course"
+                [(ngModel)]="education.course" required minlength="1" maxlength="50" />
+            <div [hidden]="!(editForm.controls.course?.dirty && editForm.controls.course?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.course?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.course?.errors?.minlength">
+                   This field is required to be at least 1 characters.
+                </small>
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.course?.errors?.maxlength">
+                   This field cannot be longer than 50 characters.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_university">University</label>
+            <input type="text" class="form-control" name="university" id="field_university"
+                [(ngModel)]="education.university"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_start">Start</label>
+            <input type="number" class="form-control" name="start" id="field_start"
+                [(ngModel)]="education.start" required />
+            <div [hidden]="!(editForm.controls.start?.dirty && editForm.controls.start?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.start?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.start?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_end">End</label>
+            <input type="number" class="form-control" name="end" id="field_end"
+                [(ngModel)]="education.end"  />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_profile">Profile</label>
+            <select class="form-control" id="field_profile" name="profile" [(ngModel)]="education.profileId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileOption.id" *ngFor="let profileOption of profiles; trackBy: trackProfileById">{{profileOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

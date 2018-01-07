@@ -1,0 +1,45 @@
+
+<div *ngIf="rate">
+    <h2><span>Rate</span> {{rate.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Rate</span></dt>
+        <dd>
+            <span>{{rate.rate}}</span>
+        </dd>
+        <dt><span>Created</span></dt>
+        <dd>
+            <span>{{rate.created | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated</span></dt>
+        <dd>
+            <span>{{rate.updated | date:'medium'}}</span>
+        </dd>
+        <dt><span>Profile Subject</span></dt>
+        <dd>
+            <div *ngIf="rate.profileSubjectId">
+                <a [routerLink]="['/profile-subject', rate.profileSubjectId]">{{rate.profileSubjectId}}</a>
+            </div>
+        </dd>
+        <dt><span>Class Length</span></dt>
+        <dd>
+            <div *ngIf="rate.classLengthId">
+                <a [routerLink]="['/class-length', rate.classLengthId]">{{rate.classLengthId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'rate/'+ rate.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

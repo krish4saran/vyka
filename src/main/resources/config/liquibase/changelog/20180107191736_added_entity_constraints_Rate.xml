@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+    <!--
+        Added the constraints for entity Rate.
+    -->
+    <changeSet id="20180107191736-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="profile_subject_id"
+                                 baseTableName="rate"
+                                 constraintName="fk_rate_profile_subject_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="profile_subject"/>
+
+        <addForeignKeyConstraint baseColumnNames="class_length_id"
+                                 baseTableName="rate"
+                                 constraintName="fk_rate_class_length_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="class_length"/>
+
+    </changeSet>
+</databaseChangeLog>

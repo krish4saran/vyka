@@ -1,0 +1,35 @@
+
+<div *ngIf="chapters">
+    <h2><span>Chapters</span> {{chapters.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Description</span></dt>
+        <dd>
+            <span>{{chapters.description}}</span>
+        </dd>
+        <dt><span>Number Of Classes</span></dt>
+        <dd>
+            <span>{{chapters.numberOfClasses}}</span>
+        </dd>
+        <dt><span>Level</span></dt>
+        <dd>
+            <div *ngIf="chapters.levelId">
+                <a [routerLink]="['/level', chapters.levelId]">{{chapters.levelId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'chapters/'+ chapters.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

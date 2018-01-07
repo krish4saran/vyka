@@ -1,0 +1,92 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myExperienceLabel">Create or edit a Experience</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!experience.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="experience.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_title">Title</label>
+            <input type="text" class="form-control" name="title" id="field_title"
+                [(ngModel)]="experience.title" required />
+            <div [hidden]="!(editForm.controls.title?.dirty && editForm.controls.title?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.title?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_company">Company</label>
+            <input type="text" class="form-control" name="company" id="field_company"
+                [(ngModel)]="experience.company"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_begin">Begin</label>
+            <div class="input-group">
+                <input id="field_begin" type="text" class="form-control" name="begin" ngbDatepicker  #beginDp="ngbDatepicker" [(ngModel)]="experience.begin"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="beginDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.begin?.dirty && editForm.controls.begin?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.begin?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_end">End</label>
+            <div class="input-group">
+                <input id="field_end" type="text" class="form-control" name="end" ngbDatepicker  #endDp="ngbDatepicker" [(ngModel)]="experience.end"
+                />
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="endDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_description">Description</label>
+            <div>
+                <div *ngIf="experience.description" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(experience.descriptionContentType, experience.description)">open</a><br>
+                    <span class="pull-left">{{experience.descriptionContentType}}, {{byteSize(experience.description)}}</span>
+                    <button type="button" (click)="experience.description=null;experience.descriptionContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_description" (change)="setFileData($event, experience, 'description', false)"/>
+            </div>
+            <input type="hidden" class="form-control" name="description" id="field_description"
+                [(ngModel)]="experience.description"  />
+            <input type="hidden" class="form-control" name="descriptionContentType" id="field_descriptionContentType"
+                [(ngModel)]="experience.descriptionContentType" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_profile">Profile</label>
+            <select class="form-control" id="field_profile" name="profile" [(ngModel)]="experience.profileId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileOption.id" *ngFor="let profileOption of profiles; trackBy: trackProfileById">{{profileOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

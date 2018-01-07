@@ -1,0 +1,109 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "location",
+            "otherEntityName": "location",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "profileSubject",
+            "otherEntityName": "profileSubject",
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "education",
+            "otherEntityName": "education",
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "experience",
+            "otherEntityName": "experience",
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "award",
+            "otherEntityName": "award",
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "availability",
+            "otherEntityName": "availability",
+            "otherEntityRelationshipName": "profile"
+        },
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityRelationshipName": "profile",
+            "relationshipName": "language",
+            "otherEntityName": "language",
+            "otherEntityField": "id",
+            "ownerSide": true
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "userId",
+            "fieldType": "Long",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "description",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "image",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "video1",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "video2",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "any"
+        },
+        {
+            "fieldName": "backgroundChecked",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "created",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updated",
+            "fieldType": "Instant"
+        }
+    ],
+    "changelogDate": "20180107191731",
+    "entityTableName": "profile",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "searchEngine": "elasticsearch"
+}

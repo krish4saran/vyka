@@ -1,0 +1,80 @@
+
+<div *ngIf="profile">
+    <h2><span>Profile</span> {{profile.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>User Id</span></dt>
+        <dd>
+            <span>{{profile.userId}}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+            <span>{{profile.description}}</span>
+        </dd>
+        <dt><span>Active</span></dt>
+        <dd>
+            <span>{{profile.active}}</span>
+        </dd>
+        <dt><span>Image</span></dt>
+        <dd>
+            <div *ngIf="profile.image">
+                <a (click)="openFile(profile.imageContentType, profile.image)">
+                    <img [src]="'data:' + profile.imageContentType + ';base64,' + profile.image" style="max-width: 100%;" alt="profile image"/>
+                </a>
+                {{profile.imageContentType}}, {{byteSize(profile.image)}}
+            </div>
+        </dd>
+        <dt><span>Video 1</span></dt>
+        <dd>
+            <div *ngIf="profile.video1">
+                <a (click)="openFile(profile.video1ContentType, profile.video1)">open</a>
+                {{profile.video1ContentType}}, {{byteSize(profile.video1)}}
+            </div>
+        </dd>
+        <dt><span>Video 2</span></dt>
+        <dd>
+            <div *ngIf="profile.video2">
+                <a (click)="openFile(profile.video2ContentType, profile.video2)">open</a>
+                {{profile.video2ContentType}}, {{byteSize(profile.video2)}}
+            </div>
+        </dd>
+        <dt><span>Background Checked</span></dt>
+        <dd>
+            <span>{{profile.backgroundChecked}}</span>
+        </dd>
+        <dt><span>Created</span></dt>
+        <dd>
+            <span>{{profile.created | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated</span></dt>
+        <dd>
+            <span>{{profile.updated | date:'medium'}}</span>
+        </dd>
+        <dt><span>Location</span></dt>
+        <dd>
+            <div *ngIf="profile.locationId">
+                <a [routerLink]="['/location', profile.locationId]">{{profile.locationId}}</a>
+            </div>
+        </dd>
+        <dt><span>Language</span></dt>
+        <dd>
+            <span *ngFor="let language of profile.languages; let last = last">
+                <a [routerLink]="['/language', language?.id ]">{{language.id}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'profile/'+ profile.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

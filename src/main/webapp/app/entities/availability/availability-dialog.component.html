@@ -1,0 +1,70 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myAvailabilityLabel">Create or edit a Availability</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!availability.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="availability.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_dayOfWeek">Day Of Week</label>
+            <select class="form-control" name="dayOfWeek" [(ngModel)]="availability.dayOfWeek" id="field_dayOfWeek"  required>
+                <option value="SUN">SUN</option>
+                <option value="MON">MON</option>
+                <option value="TUE">TUE</option>
+                <option value="WED">WED</option>
+                <option value="THU">THU</option>
+                <option value="FRI">FRI</option>
+                <option value="SAT">SAT</option>
+            </select>
+            <div [hidden]="!(editForm.controls.dayOfWeek?.dirty && editForm.controls.dayOfWeek?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.dayOfWeek?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_availabile">Availabile</label>
+            <input type="checkbox" class="form-control" name="availabile" id="field_availabile"
+                [(ngModel)]="availability.availabile"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_timeZone">Time Zone</label>
+            <select class="form-control" name="timeZone" [(ngModel)]="availability.timeZone" id="field_timeZone"  required>
+                <option value="IST">IST</option>
+                <option value="CST">CST</option>
+                <option value="PST">PST</option>
+                <option value="EST">EST</option>
+            </select>
+            <div [hidden]="!(editForm.controls.timeZone?.dirty && editForm.controls.timeZone?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.timeZone?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_profile">Profile</label>
+            <select class="form-control" id="field_profile" name="profile" [(ngModel)]="availability.profileId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileOption.id" *ngFor="let profileOption of profiles; trackBy: trackProfileById">{{profileOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

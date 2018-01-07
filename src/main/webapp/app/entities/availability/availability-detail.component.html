@@ -1,0 +1,39 @@
+
+<div *ngIf="availability">
+    <h2><span>Availability</span> {{availability.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Day Of Week</span></dt>
+        <dd>
+            <span>{{availability.dayOfWeek}}</span>
+        </dd>
+        <dt><span>Availabile</span></dt>
+        <dd>
+            <span>{{availability.availabile}}</span>
+        </dd>
+        <dt><span>Time Zone</span></dt>
+        <dd>
+            <span>{{availability.timeZone}}</span>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+            <div *ngIf="availability.profileId">
+                <a [routerLink]="['/profile', availability.profileId]">{{availability.profileId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'availability/'+ availability.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

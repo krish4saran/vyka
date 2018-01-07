@@ -1,0 +1,43 @@
+
+<div *ngIf="education">
+    <h2><span>Education</span> {{education.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Course</span></dt>
+        <dd>
+            <span>{{education.course}}</span>
+        </dd>
+        <dt><span>University</span></dt>
+        <dd>
+            <span>{{education.university}}</span>
+        </dd>
+        <dt><span>Start</span></dt>
+        <dd>
+            <span>{{education.start}}</span>
+        </dd>
+        <dt><span>End</span></dt>
+        <dd>
+            <span>{{education.end}}</span>
+        </dd>
+        <dt><span>Profile</span></dt>
+        <dd>
+            <div *ngIf="education.profileId">
+                <a [routerLink]="['/profile', education.profileId]">{{education.profileId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'education/'+ education.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

@@ -1,0 +1,33 @@
+
+<div *ngIf="profileSubject">
+    <h2><span>Profile Subject</span> {{profileSubject.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Profile</span></dt>
+        <dd>
+            <div *ngIf="profileSubject.profileId">
+                <a [routerLink]="['/profile', profileSubject.profileId]">{{profileSubject.profileId}}</a>
+            </div>
+        </dd>
+        <dt><span>Subject</span></dt>
+        <dd>
+            <div *ngIf="profileSubject.subjectId">
+                <a [routerLink]="['/subject', profileSubject.subjectId]">{{profileSubject.subjectId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'profile-subject/'+ profileSubject.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

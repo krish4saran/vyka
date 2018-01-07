@@ -1,0 +1,39 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "profile",
+            "otherEntityName": "profile",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "dayOfWeek",
+            "fieldType": "DayOfWeek",
+            "fieldValues": "SUN,MON,TUE,WED,THU,FRI,SAT",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "availabile",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "timeZone",
+            "fieldType": "TimeZones",
+            "fieldValues": "IST,CST,PST,EST",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180107191743",
+    "entityTableName": "availability",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

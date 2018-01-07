@@ -1,0 +1,82 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myRateLabel">Create or edit a Rate</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!rate.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="rate.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_rate">Rate</label>
+            <input type="number" class="form-control" name="rate" id="field_rate"
+                [(ngModel)]="rate.rate" required min="10" />
+            <div [hidden]="!(editForm.controls.rate?.dirty && editForm.controls.rate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.rate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rate?.errors?.min">
+                    This field should be at least 10.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rate?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_created">Created</label>
+            <div class="d-flex">
+                <input id="field_created" type="datetime-local" class="form-control" name="created" [(ngModel)]="rate.created"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.created?.dirty && editForm.controls.created?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.created?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.created?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_updated">Updated</label>
+            <div class="d-flex">
+                <input id="field_updated" type="datetime-local" class="form-control" name="updated" [(ngModel)]="rate.updated"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_profileSubject">Profile Subject</label>
+            <select class="form-control" id="field_profileSubject" name="profileSubject" [(ngModel)]="rate.profileSubjectId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileSubjectOption.id" *ngFor="let profileSubjectOption of profilesubjects; trackBy: trackProfileSubjectById">{{profileSubjectOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_classLength">Class Length</label>
+            <select class="form-control" id="field_classLength" name="classLength" [(ngModel)]="rate.classLengthId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="classLengthOption.id" *ngFor="let classLengthOption of classlengths; trackBy: trackClassLengthById">{{classLengthOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

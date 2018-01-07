@@ -1,0 +1,33 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "profileSubject",
+            "otherEntityName": "profileSubject",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "chapters",
+            "otherEntityName": "chapters",
+            "otherEntityRelationshipName": "level"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "level",
+            "fieldType": "LevelValue",
+            "fieldValues": "BEGINNER,INTERMEDIATE,ADVANCED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180107191734",
+    "entityTableName": "level",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

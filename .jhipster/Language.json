@@ -1,0 +1,25 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "relationshipName": "profile",
+            "otherEntityName": "profile",
+            "ownerSide": false,
+            "otherEntityRelationshipName": "language"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "language",
+            "fieldType": "LanguageValue",
+            "fieldValues": "ENGLISH,SPANISH,HINDI,MALAYALAM,KANNADA,TELUGU,ORIYA,MARATHI,URDU,PUNJABI,TAMIL"
+        }
+    ],
+    "changelogDate": "20180107191744",
+    "entityTableName": "language",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

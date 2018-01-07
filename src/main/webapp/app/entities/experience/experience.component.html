@@ -1,0 +1,86 @@
+<div>
+    <h2>
+        <span>Experiences</span>
+        <button class="btn btn-primary float-right jh-create-entity create-experience" [routerLink]="['/', { outlets: { popup: ['experience-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down" >
+            Create new Experience
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="experiences">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Title</span></th>
+            <th><span>Company</span></th>
+            <th><span>Begin</span></th>
+            <th><span>End</span></th>
+            <th><span>Description</span></th>
+            <th><span>Profile</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let experience of experiences ;trackBy: trackId">
+                <td><a [routerLink]="['../experience', experience.id ]">{{experience.id}}</a></td>
+                <td>{{experience.title}}</td>
+                <td>{{experience.company}}</td>
+                <td>{{experience.begin | date:'mediumDate'}}</td>
+                <td>{{experience.end | date:'mediumDate'}}</td>
+                <td>
+                    <a *ngIf="experience.description" (click)="openFile(experience.descriptionContentType, experience.description)">open</a>
+                    <span *ngIf="experience.description">{{experience.descriptionContentType}}, {{byteSize(experience.description)}}</span>
+                </td>
+                <td>
+                    <div *ngIf="experience.profileId">
+                        <a [routerLink]="['../profile', experience.profileId  ]" >{{experience.profileId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../experience', experience.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'experience/'+ experience.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'experience/'+ experience.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

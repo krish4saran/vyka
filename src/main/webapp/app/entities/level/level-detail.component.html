@@ -1,0 +1,31 @@
+
+<div *ngIf="level">
+    <h2><span>Level</span> {{level.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Level</span></dt>
+        <dd>
+            <span>{{level.level}}</span>
+        </dd>
+        <dt><span>Profile Subject</span></dt>
+        <dd>
+            <div *ngIf="level.profileSubjectId">
+                <a [routerLink]="['/profile-subject', level.profileSubjectId]">{{level.profileSubjectId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'level/'+ level.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

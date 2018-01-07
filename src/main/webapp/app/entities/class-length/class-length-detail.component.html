@@ -1,0 +1,37 @@
+
+<div *ngIf="classLength">
+    <h2><span>Class Length</span> {{classLength.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Class Length</span></dt>
+        <dd>
+            <span>{{classLength.classLength}}</span>
+        </dd>
+        <dt><span>Active</span></dt>
+        <dd>
+            <span>{{classLength.active}}</span>
+        </dd>
+        <dt><span>Created</span></dt>
+        <dd>
+            <span>{{classLength.created | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated</span></dt>
+        <dd>
+            <span>{{classLength.updated | date:'medium'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'class-length/'+ classLength.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

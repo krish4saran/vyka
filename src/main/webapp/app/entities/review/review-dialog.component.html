@@ -1,0 +1,97 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myReviewLabel">Create or edit a Review</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!review.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="review.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_rating">Rating</label>
+            <input type="number" class="form-control" name="rating" id="field_rating"
+                [(ngModel)]="review.rating" required min="1" max="5" />
+            <div [hidden]="!(editForm.controls.rating?.dirty && editForm.controls.rating?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.rating?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.min">
+                    This field should be at least 1.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.max">
+                    This field cannot be more than 5.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.rating?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_comments">Comments</label>
+            <textarea class="form-control" name="comments" id="field_comments"
+                [(ngModel)]="review.comments" required ></textarea>
+            <div [hidden]="!(editForm.controls.comments?.dirty && editForm.controls.comments?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.comments?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_createdDate">Created Date</label>
+            <div class="input-group">
+                <input id="field_createdDate" type="text" class="form-control" name="createdDate" ngbDatepicker  #createdDateDp="ngbDatepicker" [(ngModel)]="review.createdDate"
+                required/>
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-secondary" (click)="createdDateDp.toggle()"><i class="fa fa-calendar"></i></button>
+                </span>
+            </div>
+            <div [hidden]="!(editForm.controls.createdDate?.dirty && editForm.controls.createdDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createdDate?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_userId">User Id</label>
+            <input type="number" class="form-control" name="userId" id="field_userId"
+                [(ngModel)]="review.userId" required />
+            <div [hidden]="!(editForm.controls.userId?.dirty && editForm.controls.userId?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.userId?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.userId?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_profileSubject">Profile Subject</label>
+            <select class="form-control" id="field_profileSubject" name="profileSubject" [(ngModel)]="review.profileSubjectId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="profileSubjectOption.id" *ngFor="let profileSubjectOption of profilesubjects; trackBy: trackProfileSubjectById">{{profileSubjectOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
