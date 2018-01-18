@@ -1,0 +1,55 @@
+
+<div *ngIf="schedule">
+    <h2><span>Schedule</span> {{schedule.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Availability Id</span></dt>
+        <dd>
+            <span>{{schedule.availabilityId}}</span>
+        </dd>
+        <dt><span>Start Date</span></dt>
+        <dd>
+            <span>{{schedule.startDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>End Date</span></dt>
+        <dd>
+            <span>{{schedule.endDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{schedule.status}}</span>
+        </dd>
+        <dt><span>Created Date</span></dt>
+        <dd>
+            <span>{{schedule.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated Date</span></dt>
+        <dd>
+            <span>{{schedule.updatedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Amount</span></dt>
+        <dd>
+            <span>{{schedule.amount}}</span>
+        </dd>
+        <dt><span>Package Order</span></dt>
+        <dd>
+            <div *ngIf="schedule.packageOrderId">
+                <a [routerLink]="['/package-order', schedule.packageOrderId]">{{schedule.packageOrderId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'schedule/'+ schedule.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

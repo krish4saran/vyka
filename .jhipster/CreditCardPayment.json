@@ -1,0 +1,44 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "creditCardPayment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "ccType",
+            "fieldType": "CreditCardType",
+            "fieldValues": "VISA,MASTER_CARD,DISCOVER,AMEX",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "lastFour",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "cardName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paymentNumber",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180115043410",
+    "entityTableName": "credit_card_payment",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

@@ -1,0 +1,70 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "packageOrder",
+            "otherEntityName": "packageOrder",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "payment"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "settlement",
+            "otherEntityName": "settlement",
+            "otherEntityRelationshipName": "payment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "totalAmount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "localCurrencyCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "settlementCurrencyCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "capturedAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "canceledAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "refundAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "paymentVia",
+            "fieldType": "PaymentVia",
+            "fieldValues": "CC,PP"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedDate",
+            "fieldType": "Instant"
+        }
+    ],
+    "changelogDate": "20180115043408",
+    "entityTableName": "payment",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

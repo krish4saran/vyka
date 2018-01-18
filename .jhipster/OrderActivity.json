@@ -1,0 +1,67 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "packageOrder",
+            "otherEntityName": "packageOrder",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "settlement",
+            "otherEntityName": "settlement",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "orderActivity"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "scheduleActivity",
+            "otherEntityName": "scheduleActivity",
+            "otherEntityRelationshipName": "orderActivity"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "currencyCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "activityType",
+            "fieldType": "ActivityType",
+            "fieldValues": "BOOKED,RETURNED,CANCELED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "amountLocalCurrency",
+            "fieldType": "BigDecimal"
+        }
+    ],
+    "changelogDate": "20180115043406",
+    "entityTableName": "order_activity",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

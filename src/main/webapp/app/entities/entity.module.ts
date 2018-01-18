@@ -14,6 +14,14 @@ import { VykaAwardModule } from './award/award.module';
 import { VykaLocationModule } from './location/location.module';
 import { VykaAvailabilityModule } from './availability/availability.module';
 import { VykaLanguageModule } from './language/language.module';
+import { VykaPackageOrderModule } from './package-order/package-order.module';
+import { VykaScheduleModule } from './schedule/schedule.module';
+import { VykaOrderActivityModule } from './order-activity/order-activity.module';
+import { VykaScheduleActivityModule } from './schedule-activity/schedule-activity.module';
+import { VykaPaymentModule } from './payment/payment.module';
+import { VykaSettlementModule } from './settlement/settlement.module';
+import { VykaCreditCardPaymentModule } from './credit-card-payment/credit-card-payment.module';
+import { VykaPaypalPaymentModule } from './paypal-payment/paypal-payment.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -32,6 +40,14 @@ import { VykaLanguageModule } from './language/language.module';
         VykaLocationModule,
         VykaAvailabilityModule,
         VykaLanguageModule,
+        VykaPackageOrderModule,
+        VykaScheduleModule,
+        VykaOrderActivityModule,
+        VykaScheduleActivityModule,
+        VykaPaymentModule,
+        VykaSettlementModule,
+        VykaCreditCardPaymentModule,
+        VykaPaypalPaymentModule,
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

@@ -1,0 +1,89 @@
+<div>
+    <h2>
+        <span>Settlements</span>
+        <button class="btn btn-primary float-right jh-create-entity create-settlement" [routerLink]="['/', { outlets: { popup: ['settlement-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down" >
+            Create new Settlement
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="settlements">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Amount</span></th>
+            <th><span>Settlement Type</span></th>
+            <th><span>Attempts</span></th>
+            <th><span>Status</span></th>
+            <th><span>Settlement Date</span></th>
+            <th><span>Transaction Id</span></th>
+            <th><span>Processor Response Code</span></th>
+            <th><span>Processor Response Text</span></th>
+            <th><span>Payment</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let settlement of settlements ;trackBy: trackId">
+                <td><a [routerLink]="['../settlement', settlement.id ]">{{settlement.id}}</a></td>
+                <td>{{settlement.amount}}</td>
+                <td>{{settlement.settlementType}}</td>
+                <td>{{settlement.attempts}}</td>
+                <td>{{settlement.status}}</td>
+                <td>{{settlement.settlementDate | date:'medium'}}</td>
+                <td>{{settlement.transactionId}}</td>
+                <td>{{settlement.processorResponseCode}}</td>
+                <td>{{settlement.processorResponseText}}</td>
+                <td>
+                    <div *ngIf="settlement.paymentId">
+                        <a [routerLink]="['../payment', settlement.paymentId  ]" >{{settlement.paymentId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../settlement', settlement.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'settlement/'+ settlement.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'settlement/'+ settlement.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

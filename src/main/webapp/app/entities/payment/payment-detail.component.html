@@ -1,0 +1,63 @@
+
+<div *ngIf="payment">
+    <h2><span>Payment</span> {{payment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Total Amount</span></dt>
+        <dd>
+            <span>{{payment.totalAmount}}</span>
+        </dd>
+        <dt><span>Local Currency Code</span></dt>
+        <dd>
+            <span>{{payment.localCurrencyCode}}</span>
+        </dd>
+        <dt><span>Settlement Currency Code</span></dt>
+        <dd>
+            <span>{{payment.settlementCurrencyCode}}</span>
+        </dd>
+        <dt><span>Captured Amount</span></dt>
+        <dd>
+            <span>{{payment.capturedAmount}}</span>
+        </dd>
+        <dt><span>Canceled Amount</span></dt>
+        <dd>
+            <span>{{payment.canceledAmount}}</span>
+        </dd>
+        <dt><span>Refund Amount</span></dt>
+        <dd>
+            <span>{{payment.refundAmount}}</span>
+        </dd>
+        <dt><span>Payment Via</span></dt>
+        <dd>
+            <span>{{payment.paymentVia}}</span>
+        </dd>
+        <dt><span>Created Date</span></dt>
+        <dd>
+            <span>{{payment.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated Date</span></dt>
+        <dd>
+            <span>{{payment.updatedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Package Order</span></dt>
+        <dd>
+            <div *ngIf="payment.packageOrderId">
+                <a [routerLink]="['/package-order', payment.packageOrderId]">{{payment.packageOrderId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'payment/'+ payment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

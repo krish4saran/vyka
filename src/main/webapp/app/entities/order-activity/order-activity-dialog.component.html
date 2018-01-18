@@ -1,0 +1,102 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myOrderActivityLabel">Create or edit a Order Activity</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!orderActivity.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="orderActivity.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                [(ngModel)]="orderActivity.amount" required />
+            <div [hidden]="!(editForm.controls.amount?.dirty && editForm.controls.amount?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.amount?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.amount?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_currencyCode">Currency Code</label>
+            <input type="text" class="form-control" name="currencyCode" id="field_currencyCode"
+                [(ngModel)]="orderActivity.currencyCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_activityType">Activity Type</label>
+            <select class="form-control" name="activityType" [(ngModel)]="orderActivity.activityType" id="field_activityType"  required>
+                <option value="BOOKED">BOOKED</option>
+                <option value="RETURNED">RETURNED</option>
+                <option value="CANCELED">CANCELED</option>
+            </select>
+            <div [hidden]="!(editForm.controls.activityType?.dirty && editForm.controls.activityType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.activityType?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_createdDate">Created Date</label>
+            <div class="d-flex">
+                <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" [(ngModel)]="orderActivity.createdDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.createdDate?.dirty && editForm.controls.createdDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createdDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.createdDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_updatedDate">Updated Date</label>
+            <div class="d-flex">
+                <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" [(ngModel)]="orderActivity.updatedDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_amountLocalCurrency">Amount Local Currency</label>
+            <input type="number" class="form-control" name="amountLocalCurrency" id="field_amountLocalCurrency"
+                [(ngModel)]="orderActivity.amountLocalCurrency"  />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_packageOrder">Package Order</label>
+            <select class="form-control" id="field_packageOrder" name="packageOrder" [(ngModel)]="orderActivity.packageOrderId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="packageOrderOption.id" *ngFor="let packageOrderOption of packageorders; trackBy: trackPackageOrderById">{{packageOrderOption.id}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_settlement">Settlement</label>
+            <select class="form-control" id="field_settlement" name="settlement" [(ngModel)]="orderActivity.settlementId">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="settlementOption.id" *ngFor="let settlementOption of settlements; trackBy: trackSettlementById">{{settlementOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

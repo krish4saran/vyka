@@ -1,0 +1,124 @@
+
+
+entity PackageOrder{
+    rate BigDecimal,
+    totalAmount BigDecimal,
+    quantity Integer,
+    profileSubjectId Integer required,
+    status OrderStatus,
+    createdDate Instant required,
+    updatedDate Instant,
+    studentId Integer required
+}
+
+
+enum OrderStatus{
+	OPEN, CANCELED, COMPLETED, IN_PROGRESS, BOOKED
+}
+
+entity Schedule{
+	availabilityId Integer required,
+    startDate Instant required,
+    endDate Instant required,
+    status ScheduleStatus required,
+    createdDate Instant required,
+    updatedDate Instant,
+    amount BigDecimal required
+}
+
+enum ScheduleStatus {
+	OPEN, BOOKED, CANCELED, COMPLETED, IN_PROGRESS, RESCHEDULED, TECHNICAL_ISSUE, DID_NOT_SHOW_UP
+}
+
+entity OrderActivity{
+	amount BigDecimal required,
+    currencyCode String,
+    activityType ActivityType required,
+    createdDate Instant required,
+    updatedDate Instant,
+    amountLocalCurrency BigDecimal
+}
+
+enum ActivityType{
+	BOOKED, RETURNED, CANCELED
+}
+
+entity ScheduleActivity{
+	amount BigDecimal required,
+    createdDate Instant required,
+    updatedDate Instant
+}
+
+entity Payment{
+	totalAmount BigDecimal required,
+    localCurrencyCode String,
+    settlementCurrencyCode String,
+    capturedAmount BigDecimal,
+    canceledAmount BigDecimal,
+    refundAmount BigDecimal,
+    paymentVia PaymentVia
+	createdDate Instant required,
+    updatedDate Instant
+}
+
+entity Settlement{
+	amount BigDecimal required,
+    settlementType SettlementType required,
+	attempts Integer required max(3),
+    status SettlementStatus required,
+    settlementDate Instant required,
+    transactionId String,
+    processorResponseCode String,
+    processorResponseText String
+    
+}
+
+enum SettlementType{
+	SETTLED, REFUNDED, VOIDED
+}
+
+enum SettlementStatus{
+	NEW, COMPLETED, ERROR, FAILED
+}
+enum PaymentVia{
+	CC, PP
+}
+
+entity CreditCardPayment{
+	 ccType CreditCardType required,
+     lastFour String required,
+     cardName String,
+     paymentNumber String
+}
+
+entity PaypalPayment{
+	paypalPayerId String required,
+    paypalPayerEmailId String required,
+    payerFirstName String,
+    payerLastName String,
+    paymentNumber String
+}
+enum CreditCardType{
+	VISA, MASTER_CARD, DISCOVER, AMEX
+}
+
+
+relationship OneToOne {
+    Payment{packageOrder} to PackageOrder,
+  	CreditCardPayment{payment} to Payment ,
+  	PaypalPayment{payment} to Payment,
+    OrderActivity{settlement} to Settlement
+}
+
+relationship OneToMany {
+    PackageOrder{schedule} to Schedule,
+    PackageOrder{orderActivity} to OrderActivity,
+    Schedule{scheduleActivity} to ScheduleActivity,
+    OrderActivity{scheduleActivity} to ScheduleActivity,
+    Payment{settlement} to Settlement
+}
+
+dto * with mapstruct
+service all with serviceImpl
+paginate PackageOrder, OrderActivity, Schedule with pagination
+search PackageOrder, Schedule with elasticsearch

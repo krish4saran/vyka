@@ -1,0 +1,47 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-one",
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "otherEntityField": "id",
+            "ownerSide": true,
+            "otherEntityRelationshipName": "paypalPayment"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "paypalPayerId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "paypalPayerEmailId",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "payerFirstName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "payerLastName",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "paymentNumber",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180115043411",
+    "entityTableName": "paypal_payment",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

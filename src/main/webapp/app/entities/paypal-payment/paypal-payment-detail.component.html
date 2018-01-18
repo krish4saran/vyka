@@ -1,0 +1,47 @@
+
+<div *ngIf="paypalPayment">
+    <h2><span>Paypal Payment</span> {{paypalPayment.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Paypal Payer Id</span></dt>
+        <dd>
+            <span>{{paypalPayment.paypalPayerId}}</span>
+        </dd>
+        <dt><span>Paypal Payer Email Id</span></dt>
+        <dd>
+            <span>{{paypalPayment.paypalPayerEmailId}}</span>
+        </dd>
+        <dt><span>Payer First Name</span></dt>
+        <dd>
+            <span>{{paypalPayment.payerFirstName}}</span>
+        </dd>
+        <dt><span>Payer Last Name</span></dt>
+        <dd>
+            <span>{{paypalPayment.payerLastName}}</span>
+        </dd>
+        <dt><span>Payment Number</span></dt>
+        <dd>
+            <span>{{paypalPayment.paymentNumber}}</span>
+        </dd>
+        <dt><span>Payment</span></dt>
+        <dd>
+            <div *ngIf="paypalPayment.paymentId">
+                <a [routerLink]="['/payment', paypalPayment.paymentId]">{{paypalPayment.paymentId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'paypal-payment/'+ paypalPayment.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

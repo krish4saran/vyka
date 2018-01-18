@@ -1,0 +1,70 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "payment",
+            "otherEntityName": "payment",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "settlementType",
+            "fieldType": "SettlementType",
+            "fieldValues": "SETTLED,REFUNDED,VOIDED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "attempts",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required",
+                "max"
+            ],
+            "fieldValidateRulesMax": 3
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "SettlementStatus",
+            "fieldValues": "NEW,COMPLETED,ERROR,FAILED",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "settlementDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "transactionId",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "processorResponseCode",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "processorResponseText",
+            "fieldType": "String"
+        }
+    ],
+    "changelogDate": "20180115043409",
+    "entityTableName": "settlement",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false
+}

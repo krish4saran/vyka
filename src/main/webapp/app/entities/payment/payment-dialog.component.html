@@ -1,0 +1,103 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPaymentLabel">Create or edit a Payment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!payment.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="payment.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_totalAmount">Total Amount</label>
+            <input type="number" class="form-control" name="totalAmount" id="field_totalAmount"
+                [(ngModel)]="payment.totalAmount" required />
+            <div [hidden]="!(editForm.controls.totalAmount?.dirty && editForm.controls.totalAmount?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.totalAmount?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.totalAmount?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_localCurrencyCode">Local Currency Code</label>
+            <input type="text" class="form-control" name="localCurrencyCode" id="field_localCurrencyCode"
+                [(ngModel)]="payment.localCurrencyCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_settlementCurrencyCode">Settlement Currency Code</label>
+            <input type="text" class="form-control" name="settlementCurrencyCode" id="field_settlementCurrencyCode"
+                [(ngModel)]="payment.settlementCurrencyCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_capturedAmount">Captured Amount</label>
+            <input type="number" class="form-control" name="capturedAmount" id="field_capturedAmount"
+                [(ngModel)]="payment.capturedAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_canceledAmount">Canceled Amount</label>
+            <input type="number" class="form-control" name="canceledAmount" id="field_canceledAmount"
+                [(ngModel)]="payment.canceledAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_refundAmount">Refund Amount</label>
+            <input type="number" class="form-control" name="refundAmount" id="field_refundAmount"
+                [(ngModel)]="payment.refundAmount"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_paymentVia">Payment Via</label>
+            <select class="form-control" name="paymentVia" [(ngModel)]="payment.paymentVia" id="field_paymentVia" >
+                <option value="CC">CC</option>
+                <option value="PP">PP</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_createdDate">Created Date</label>
+            <div class="d-flex">
+                <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" [(ngModel)]="payment.createdDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.createdDate?.dirty && editForm.controls.createdDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createdDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.createdDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_updatedDate">Updated Date</label>
+            <div class="d-flex">
+                <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" [(ngModel)]="payment.updatedDate"
+                  />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_packageOrder">Package Order</label>
+            <select class="form-control" id="field_packageOrder" name="packageOrder" [(ngModel)]="payment.packageOrderId">
+                <option [ngValue]="null"></option>
+                <option [ngValue]="packageOrderOption.id" *ngFor="let packageOrderOption of packageorders; trackBy: trackPackageOrderById">{{packageOrderOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,73 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipName": "packageOrder",
+            "otherEntityName": "packageOrder",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "scheduleActivity",
+            "otherEntityName": "scheduleActivity",
+            "otherEntityRelationshipName": "schedule"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "availabilityId",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "startDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "endDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "ScheduleStatus",
+            "fieldValues": "OPEN,BOOKED,CANCELED,COMPLETED,IN_PROGRESS,RESCHEDULED,TECHNICAL_ISSUE,DID_NOT_SHOW_UP",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "amount",
+            "fieldType": "BigDecimal",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180115043405",
+    "entityTableName": "schedule",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "searchEngine": "elasticsearch"
+}

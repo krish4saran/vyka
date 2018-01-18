@@ -70,6 +70,23 @@ public class CacheConfiguration {
             cm.createCache(com.vyka.domain.Availability.class.getName(), jcacheConfiguration);
             cm.createCache(com.vyka.domain.Language.class.getName(), jcacheConfiguration);
             cm.createCache(com.vyka.domain.Language.class.getName() + ".profiles", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.PackageOrder.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.PackageOrder.class.getName() + ".packageOrders", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Schedule.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Schedule.class.getName() + ".schedules", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.OrderActivity.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.OrderActivity.class.getName() + ".orderActivities", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.ScheduleActivity.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Payment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Payment.class.getName() + ".payments", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Settlement.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.CreditCardPayment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.PaypalPayment.class.getName(), jcacheConfiguration);
+            cm.createCache(com.vyka.domain.PackageOrder.class.getName() + ".schedules", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.PackageOrder.class.getName() + ".orderActivities", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Schedule.class.getName() + ".scheduleActivities", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.OrderActivity.class.getName() + ".scheduleActivities", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Payment.class.getName() + ".settlements", jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

@@ -1,0 +1,139 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myScheduleLabel">Create or edit a Schedule</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!schedule.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="schedule.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_availabilityId">Availability Id</label>
+            <input type="number" class="form-control" name="availabilityId" id="field_availabilityId"
+                [(ngModel)]="schedule.availabilityId" required />
+            <div [hidden]="!(editForm.controls.availabilityId?.dirty && editForm.controls.availabilityId?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.availabilityId?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.availabilityId?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_startDate">Start Date</label>
+            <div class="d-flex">
+                <input id="field_startDate" type="datetime-local" class="form-control" name="startDate" [(ngModel)]="schedule.startDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.startDate?.dirty && editForm.controls.startDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.startDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.startDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_endDate">End Date</label>
+            <div class="d-flex">
+                <input id="field_endDate" type="datetime-local" class="form-control" name="endDate" [(ngModel)]="schedule.endDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.endDate?.dirty && editForm.controls.endDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.endDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.endDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="schedule.status" id="field_status"  required>
+                <option value="OPEN">OPEN</option>
+                <option value="BOOKED">BOOKED</option>
+                <option value="CANCELED">CANCELED</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="IN_PROGRESS">IN_PROGRESS</option>
+                <option value="RESCHEDULED">RESCHEDULED</option>
+                <option value="TECHNICAL_ISSUE">TECHNICAL_ISSUE</option>
+                <option value="DID_NOT_SHOW_UP">DID_NOT_SHOW_UP</option>
+            </select>
+            <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.status?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_createdDate">Created Date</label>
+            <div class="d-flex">
+                <input id="field_createdDate" type="datetime-local" class="form-control" name="createdDate" [(ngModel)]="schedule.createdDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.createdDate?.dirty && editForm.controls.createdDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.createdDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.createdDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_updatedDate">Updated Date</label>
+            <div class="d-flex">
+                <input id="field_updatedDate" type="datetime-local" class="form-control" name="updatedDate" [(ngModel)]="schedule.updatedDate"
+                  />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                [(ngModel)]="schedule.amount" required />
+            <div [hidden]="!(editForm.controls.amount?.dirty && editForm.controls.amount?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.amount?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.amount?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_packageOrder">Package Order</label>
+            <select class="form-control" id="field_packageOrder" name="packageOrder" [(ngModel)]="schedule.packageOrderId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="packageOrderOption.id" *ngFor="let packageOrderOption of packageorders; trackBy: trackPackageOrderById">{{packageOrderOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

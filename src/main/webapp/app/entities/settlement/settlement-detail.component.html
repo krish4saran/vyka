@@ -1,0 +1,59 @@
+
+<div *ngIf="settlement">
+    <h2><span>Settlement</span> {{settlement.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Amount</span></dt>
+        <dd>
+            <span>{{settlement.amount}}</span>
+        </dd>
+        <dt><span>Settlement Type</span></dt>
+        <dd>
+            <span>{{settlement.settlementType}}</span>
+        </dd>
+        <dt><span>Attempts</span></dt>
+        <dd>
+            <span>{{settlement.attempts}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{settlement.status}}</span>
+        </dd>
+        <dt><span>Settlement Date</span></dt>
+        <dd>
+            <span>{{settlement.settlementDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Transaction Id</span></dt>
+        <dd>
+            <span>{{settlement.transactionId}}</span>
+        </dd>
+        <dt><span>Processor Response Code</span></dt>
+        <dd>
+            <span>{{settlement.processorResponseCode}}</span>
+        </dd>
+        <dt><span>Processor Response Text</span></dt>
+        <dd>
+            <span>{{settlement.processorResponseText}}</span>
+        </dd>
+        <dt><span>Payment</span></dt>
+        <dd>
+            <div *ngIf="settlement.paymentId">
+                <a [routerLink]="['/payment', settlement.paymentId]">{{settlement.paymentId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'settlement/'+ settlement.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

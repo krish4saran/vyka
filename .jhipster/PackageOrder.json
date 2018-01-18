@@ -1,0 +1,68 @@
+{
+    "fluentMethods": true,
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "schedule",
+            "otherEntityName": "schedule",
+            "otherEntityRelationshipName": "packageOrder"
+        },
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "orderActivity",
+            "otherEntityName": "orderActivity",
+            "otherEntityRelationshipName": "packageOrder"
+        }
+    ],
+    "fields": [
+        {
+            "fieldName": "rate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "totalAmount",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "quantity",
+            "fieldType": "Integer"
+        },
+        {
+            "fieldName": "profileSubjectId",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "status",
+            "fieldType": "OrderStatus",
+            "fieldValues": "OPEN,CANCELED,COMPLETED,IN_PROGRESS,BOOKED"
+        },
+        {
+            "fieldName": "createdDate",
+            "fieldType": "Instant",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "updatedDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "studentId",
+            "fieldType": "Integer",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "changelogDate": "20180115043404",
+    "entityTableName": "package_order",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "searchEngine": "elasticsearch"
+}

@@ -1,0 +1,127 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="mySettlementLabel">Create or edit a Settlement</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!settlement.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="settlement.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_amount">Amount</label>
+            <input type="number" class="form-control" name="amount" id="field_amount"
+                [(ngModel)]="settlement.amount" required />
+            <div [hidden]="!(editForm.controls.amount?.dirty && editForm.controls.amount?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.amount?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.amount?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_settlementType">Settlement Type</label>
+            <select class="form-control" name="settlementType" [(ngModel)]="settlement.settlementType" id="field_settlementType"  required>
+                <option value="SETTLED">SETTLED</option>
+                <option value="REFUNDED">REFUNDED</option>
+                <option value="VOIDED">VOIDED</option>
+            </select>
+            <div [hidden]="!(editForm.controls.settlementType?.dirty && editForm.controls.settlementType?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.settlementType?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_attempts">Attempts</label>
+            <input type="number" class="form-control" name="attempts" id="field_attempts"
+                [(ngModel)]="settlement.attempts" required max="3" />
+            <div [hidden]="!(editForm.controls.attempts?.dirty && editForm.controls.attempts?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.attempts?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.attempts?.errors?.max">
+                    This field cannot be more than 3.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.attempts?.errors?.number">
+                    This field should be a number.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="settlement.status" id="field_status"  required>
+                <option value="NEW">NEW</option>
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="ERROR">ERROR</option>
+                <option value="FAILED">FAILED</option>
+            </select>
+            <div [hidden]="!(editForm.controls.status?.dirty && editForm.controls.status?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.status?.errors?.required">
+                   This field is required.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_settlementDate">Settlement Date</label>
+            <div class="d-flex">
+                <input id="field_settlementDate" type="datetime-local" class="form-control" name="settlementDate" [(ngModel)]="settlement.settlementDate"
+                required  />
+            </div>
+            <div [hidden]="!(editForm.controls.settlementDate?.dirty && editForm.controls.settlementDate?.invalid)">
+                <small class="form-text text-danger"
+                   [hidden]="!editForm.controls.settlementDate?.errors?.required">
+                   This field is required.
+                </small>
+                <small class="form-text text-danger"
+                    [hidden]="!editForm.controls.settlementDate?.errors?.ZonedDateTimelocal">
+                    This field should be a date and time.
+                </small>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_transactionId">Transaction Id</label>
+            <input type="text" class="form-control" name="transactionId" id="field_transactionId"
+                [(ngModel)]="settlement.transactionId"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_processorResponseCode">Processor Response Code</label>
+            <input type="text" class="form-control" name="processorResponseCode" id="field_processorResponseCode"
+                [(ngModel)]="settlement.processorResponseCode"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_processorResponseText">Processor Response Text</label>
+            <input type="text" class="form-control" name="processorResponseText" id="field_processorResponseText"
+                [(ngModel)]="settlement.processorResponseText"  />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" for="field_payment">Payment</label>
+            <select class="form-control" id="field_payment" name="payment" [(ngModel)]="settlement.paymentId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="paymentOption.id" *ngFor="let paymentOption of payments; trackBy: trackPaymentById">{{paymentOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

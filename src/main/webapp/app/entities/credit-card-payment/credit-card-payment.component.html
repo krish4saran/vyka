@@ -1,0 +1,81 @@
+<div>
+    <h2>
+        <span>Credit Card Payments</span>
+        <button class="btn btn-primary float-right jh-create-entity create-credit-card-payment" [routerLink]="['/', { outlets: { popup: ['credit-card-payment-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down" >
+            Create new Credit Card Payment
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="Query">
+                    <button class="input-group-addon btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-addon btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="creditCardPayments">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span>ID</span></th>
+            <th><span>Cc Type</span></th>
+            <th><span>Last Four</span></th>
+            <th><span>Card Name</span></th>
+            <th><span>Payment Number</span></th>
+            <th><span>Payment</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let creditCardPayment of creditCardPayments ;trackBy: trackId">
+                <td><a [routerLink]="['../credit-card-payment', creditCardPayment.id ]">{{creditCardPayment.id}}</a></td>
+                <td>{{creditCardPayment.ccType}}</td>
+                <td>{{creditCardPayment.lastFour}}</td>
+                <td>{{creditCardPayment.cardName}}</td>
+                <td>{{creditCardPayment.paymentNumber}}</td>
+                <td>
+                    <div *ngIf="creditCardPayment.paymentId">
+                        <a [routerLink]="['../payment', creditCardPayment.paymentId  ]" >{{creditCardPayment.paymentId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../credit-card-payment', creditCardPayment.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'credit-card-payment/'+ creditCardPayment.id + '/edit'} }]"
+                                replaceUrl="true"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'credit-card-payment/'+ creditCardPayment.id + '/delete'} }]"
+                                replaceUrl="true"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

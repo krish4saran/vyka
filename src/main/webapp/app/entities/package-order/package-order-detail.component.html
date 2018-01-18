@@ -1,0 +1,53 @@
+
+<div *ngIf="packageOrder">
+    <h2><span>Package Order</span> {{packageOrder.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Rate</span></dt>
+        <dd>
+            <span>{{packageOrder.rate}}</span>
+        </dd>
+        <dt><span>Total Amount</span></dt>
+        <dd>
+            <span>{{packageOrder.totalAmount}}</span>
+        </dd>
+        <dt><span>Quantity</span></dt>
+        <dd>
+            <span>{{packageOrder.quantity}}</span>
+        </dd>
+        <dt><span>Profile Subject Id</span></dt>
+        <dd>
+            <span>{{packageOrder.profileSubjectId}}</span>
+        </dd>
+        <dt><span>Status</span></dt>
+        <dd>
+            <span>{{packageOrder.status}}</span>
+        </dd>
+        <dt><span>Created Date</span></dt>
+        <dd>
+            <span>{{packageOrder.createdDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Updated Date</span></dt>
+        <dd>
+            <span>{{packageOrder.updatedDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Student Id</span></dt>
+        <dd>
+            <span>{{packageOrder.studentId}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'package-order/'+ packageOrder.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>
