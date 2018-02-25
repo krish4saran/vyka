@@ -1,5 +1,12 @@
 import { BaseEntity } from './../../shared';
 
+export const enum TimeZones {
+    'IST',
+    'CST',
+    'PST',
+    'EST'
+}
+
 export class Profile implements BaseEntity {
     constructor(
         public id?: number,
@@ -13,9 +20,10 @@ export class Profile implements BaseEntity {
         public video2ContentType?: string,
         public video2?: any,
         public backgroundChecked?: boolean,
-        public created?: any,
-        public updated?: any,
-        public locationId?: number,
+        public city?: string,
+        public state?: string,
+        public country?: string,
+        public timeZone?: TimeZones,
         public profileSubjects?: BaseEntity[],
         public educations?: BaseEntity[],
         public experiences?: BaseEntity[],

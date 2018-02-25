@@ -1,6 +1,13 @@
 {
     "fluentMethods": true,
-    "relationships": [],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "relationshipName": "subject",
+            "otherEntityName": "subjectLevel",
+            "otherEntityRelationshipName": "subject"
+        }
+    ],
     "fields": [
         {
             "fieldName": "name",
@@ -19,23 +26,12 @@
         {
             "fieldName": "active",
             "fieldType": "Boolean"
-        },
-        {
-            "fieldName": "created",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
-        },
-        {
-            "fieldName": "updated",
-            "fieldType": "Instant"
         }
     ],
     "changelogDate": "20180107191732",
     "entityTableName": "subject",
     "dto": "mapstruct",
-    "pagination": "no",
+    "pagination": "pagination",
     "service": "serviceImpl",
     "jpaMetamodelFiltering": false
 }

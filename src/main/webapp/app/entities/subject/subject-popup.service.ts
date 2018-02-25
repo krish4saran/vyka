@@ -1,7 +1,6 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Subject } from './subject.model';
 import { SubjectService } from './subject.service';
 
@@ -10,7 +9,6 @@ export class SubjectPopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private subjectService: SubjectService
@@ -28,10 +26,6 @@ export class SubjectPopupService {
 
             if (id) {
                 this.subjectService.find(id).subscribe((subject) => {
-                    subject.created = this.datePipe
-                        .transform(subject.created, 'yyyy-MM-ddTHH:mm:ss');
-                    subject.updated = this.datePipe
-                        .transform(subject.updated, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.subjectModalRef(component, subject);
                     resolve(this.ngbModalRef);
                 });

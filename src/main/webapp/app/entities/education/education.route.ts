@@ -1,6 +1,8 @@
-import { Routes } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { EducationComponent } from './education.component';
 import { EducationDetailComponent } from './education-detail.component';

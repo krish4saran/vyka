@@ -20,21 +20,31 @@
             "relationshipName": "review",
             "otherEntityName": "review",
             "otherEntityRelationshipName": "profileSubject"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "level",
-            "otherEntityName": "level",
-            "otherEntityRelationshipName": "profileSubject"
-        },
-        {
-            "relationshipType": "one-to-many",
-            "relationshipName": "rate",
-            "otherEntityName": "rate",
-            "otherEntityRelationshipName": "profileSubject"
         }
     ],
-    "fields": [],
+    "fields": [
+        {
+            "fieldName": "level",
+            "fieldType": "LevelValue",
+            "fieldValues": "BEGINNER,INTERMEDIATE,ADVANCED"
+        },
+        {
+            "fieldName": "rate",
+            "fieldType": "BigDecimal"
+        },
+        {
+            "fieldName": "sponsored",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "totalRating",
+            "fieldType": "BigDecimal"
+        }
+    ],
     "changelogDate": "20180107191733",
     "entityTableName": "profile_subject",
     "dto": "mapstruct",

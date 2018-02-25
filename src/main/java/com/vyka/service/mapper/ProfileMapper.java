@@ -8,18 +8,21 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity Profile and its DTO ProfileDTO.
  */
-@Mapper(componentModel = "spring", uses = {LocationMapper.class, LanguageMapper.class})
+@Mapper(componentModel = "spring", uses = {LanguageMapper.class,
+		ProfileSubjectMapper.class,
+		EducationMapper.class,
+		ExperienceMapper.class,
+		AwardMapper.class,
+		AvailabilityMapper.class})
 public interface ProfileMapper extends EntityMapper<ProfileDTO, Profile> {
 
-    @Mapping(source = "location.id", target = "locationId")
-    ProfileDTO toDto(Profile profile); 
+    
 
-    @Mapping(source = "locationId", target = "location")
-    @Mapping(target = "profileSubjects", ignore = true)
-    @Mapping(target = "educations", ignore = true)
-    @Mapping(target = "experiences", ignore = true)
-    @Mapping(target = "awards", ignore = true)
-    @Mapping(target = "availabilities", ignore = true)
+//    @Mapping(target = "profileSubjects", ignore = true)
+//    @Mapping(target = "educations", ignore = true)
+//    @Mapping(target = "experiences", ignore = true)
+//    @Mapping(target = "awards", ignore = true)
+//    @Mapping(target = "availabilities", ignore = true)
     Profile toEntity(ProfileDTO profileDTO);
 
     default Profile fromId(Long id) {

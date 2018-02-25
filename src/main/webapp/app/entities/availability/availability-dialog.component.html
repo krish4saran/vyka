@@ -14,7 +14,7 @@
         </div>
         <div class="form-group">
             <label class="form-control-label" for="field_dayOfWeek">Day Of Week</label>
-            <select class="form-control" name="dayOfWeek" [(ngModel)]="availability.dayOfWeek" id="field_dayOfWeek"  required>
+            <select class="form-control" name="dayOfWeek" [(ngModel)]="availability.dayOfWeek" id="field_dayOfWeek" >
                 <option value="SUN">SUN</option>
                 <option value="MON">MON</option>
                 <option value="TUE">TUE</option>
@@ -23,31 +23,29 @@
                 <option value="FRI">FRI</option>
                 <option value="SAT">SAT</option>
             </select>
-            <div [hidden]="!(editForm.controls.dayOfWeek?.dirty && editForm.controls.dayOfWeek?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.dayOfWeek?.errors?.required">
-                   This field is required.
-                </small>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_booked">Booked</label>
+            <input type="checkbox" class="form-control" name="booked" id="field_booked"
+                [(ngModel)]="availability.booked"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_active">Active</label>
+            <input type="checkbox" class="form-control" name="active" id="field_active"
+                [(ngModel)]="availability.active"  />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" for="field_effectiveDate">Effective Date</label>
+            <div class="d-flex">
+                <input id="field_effectiveDate" type="datetime-local" class="form-control" name="effectiveDate" [(ngModel)]="availability.effectiveDate"
+                  />
             </div>
         </div>
         <div class="form-group">
-            <label class="form-control-label" for="field_availabile">Availabile</label>
-            <input type="checkbox" class="form-control" name="availabile" id="field_availabile"
-                [(ngModel)]="availability.availabile"  />
-        </div>
-        <div class="form-group">
-            <label class="form-control-label" for="field_timeZone">Time Zone</label>
-            <select class="form-control" name="timeZone" [(ngModel)]="availability.timeZone" id="field_timeZone"  required>
-                <option value="IST">IST</option>
-                <option value="CST">CST</option>
-                <option value="PST">PST</option>
-                <option value="EST">EST</option>
-            </select>
-            <div [hidden]="!(editForm.controls.timeZone?.dirty && editForm.controls.timeZone?.invalid)">
-                <small class="form-text text-danger"
-                   [hidden]="!editForm.controls.timeZone?.errors?.required">
-                   This field is required.
-                </small>
+            <label class="form-control-label" for="field_deactivatedDate">Deactivated Date</label>
+            <div class="d-flex">
+                <input id="field_deactivatedDate" type="datetime-local" class="form-control" name="deactivatedDate" [(ngModel)]="availability.deactivatedDate"
+                  />
             </div>
         </div>
 

@@ -7,9 +7,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import com.vyka.domain.enumeration.LevelValue;
 
 /**
  * A ProfileSubject.
@@ -26,6 +29,22 @@ public class ProfileSubject implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "jhi_level")
+    private LevelValue level;
+
+    @Column(name = "rate", precision=10, scale=2)
+    private BigDecimal rate;
+
+    @Column(name = "sponsored")
+    private Boolean sponsored;
+
+    @Column(name = "active")
+    private Boolean active;
+
+    @Column(name = "total_rating", precision=10, scale=2)
+    private BigDecimal totalRating;
+
     @ManyToOne
     private Profile profile;
 
@@ -38,16 +57,6 @@ public class ProfileSubject implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Review> reviews = new HashSet<>();
 
-    @OneToMany(mappedBy = "profileSubject")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Level> levels = new HashSet<>();
-
-    @OneToMany(mappedBy = "profileSubject")
-    @JsonIgnore
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-    private Set<Rate> rates = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -55,6 +64,71 @@ public class ProfileSubject implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LevelValue getLevel() {
+        return level;
+    }
+
+    public ProfileSubject level(LevelValue level) {
+        this.level = level;
+        return this;
+    }
+
+    public void setLevel(LevelValue level) {
+        this.level = level;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public ProfileSubject rate(BigDecimal rate) {
+        this.rate = rate;
+        return this;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Boolean isSponsored() {
+        return sponsored;
+    }
+
+    public ProfileSubject sponsored(Boolean sponsored) {
+        this.sponsored = sponsored;
+        return this;
+    }
+
+    public void setSponsored(Boolean sponsored) {
+        this.sponsored = sponsored;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public ProfileSubject active(Boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public BigDecimal getTotalRating() {
+        return totalRating;
+    }
+
+    public ProfileSubject totalRating(BigDecimal totalRating) {
+        this.totalRating = totalRating;
+        return this;
+    }
+
+    public void setTotalRating(BigDecimal totalRating) {
+        this.totalRating = totalRating;
     }
 
     public Profile getProfile() {
@@ -107,56 +181,6 @@ public class ProfileSubject implements Serializable {
     public void setReviews(Set<Review> reviews) {
         this.reviews = reviews;
     }
-
-    public Set<Level> getLevels() {
-        return levels;
-    }
-
-    public ProfileSubject levels(Set<Level> levels) {
-        this.levels = levels;
-        return this;
-    }
-
-    public ProfileSubject addLevel(Level level) {
-        this.levels.add(level);
-        level.setProfileSubject(this);
-        return this;
-    }
-
-    public ProfileSubject removeLevel(Level level) {
-        this.levels.remove(level);
-        level.setProfileSubject(null);
-        return this;
-    }
-
-    public void setLevels(Set<Level> levels) {
-        this.levels = levels;
-    }
-
-    public Set<Rate> getRates() {
-        return rates;
-    }
-
-    public ProfileSubject rates(Set<Rate> rates) {
-        this.rates = rates;
-        return this;
-    }
-
-    public ProfileSubject addRate(Rate rate) {
-        this.rates.add(rate);
-        rate.setProfileSubject(this);
-        return this;
-    }
-
-    public ProfileSubject removeRate(Rate rate) {
-        this.rates.remove(rate);
-        rate.setProfileSubject(null);
-        return this;
-    }
-
-    public void setRates(Set<Rate> rates) {
-        this.rates = rates;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -183,6 +207,11 @@ public class ProfileSubject implements Serializable {
     public String toString() {
         return "ProfileSubject{" +
             "id=" + getId() +
+            ", level='" + getLevel() + "'" +
+            ", rate='" + getRate() + "'" +
+            ", sponsored='" + isSponsored() + "'" +
+            ", active='" + isActive() + "'" +
+            ", totalRating='" + getTotalRating() + "'" +
             "}";
     }
 }

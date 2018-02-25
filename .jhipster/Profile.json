@@ -2,14 +2,6 @@
     "fluentMethods": true,
     "relationships": [
         {
-            "relationshipType": "one-to-one",
-            "relationshipName": "location",
-            "otherEntityName": "location",
-            "otherEntityField": "id",
-            "ownerSide": true,
-            "otherEntityRelationshipName": "profile"
-        },
-        {
             "relationshipType": "one-to-many",
             "relationshipName": "profileSubject",
             "otherEntityName": "profileSubject",
@@ -59,10 +51,7 @@
         {
             "fieldName": "description",
             "fieldType": "byte[]",
-            "fieldTypeBlobContent": "text",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldTypeBlobContent": "text"
         },
         {
             "fieldName": "active",
@@ -88,15 +77,29 @@
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "created",
-            "fieldType": "Instant",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "city",
+            "fieldType": "String"
         },
         {
-            "fieldName": "updated",
-            "fieldType": "Instant"
+            "fieldName": "state",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 2
+        },
+        {
+            "fieldName": "country",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": 3
+        },
+        {
+            "fieldName": "timeZone",
+            "fieldType": "TimeZones",
+            "fieldValues": "IST,CST,PST,EST"
         }
     ],
     "changelogDate": "20180107191731",

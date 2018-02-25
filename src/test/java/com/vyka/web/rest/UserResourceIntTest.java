@@ -162,7 +162,7 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            authorities, true);
 
         restUserMockMvc.perform(post("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -202,7 +202,7 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            authorities, true);
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restUserMockMvc.perform(post("/api/users")
@@ -239,7 +239,7 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            authorities, true);
 
         // Create the User
         restUserMockMvc.perform(post("/api/users")
@@ -276,7 +276,7 @@ public class UserResourceIntTest {
             null,
             null,
             null,
-            authorities);
+            authorities, true);
 
         // Create the User
         restUserMockMvc.perform(post("/api/users")
@@ -362,7 +362,7 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            authorities, true);
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -407,7 +407,7 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            authorities, true);
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -442,7 +442,9 @@ public class UserResourceIntTest {
         anotherUser.setLastName("hipster");
         anotherUser.setImageUrl("");
         anotherUser.setLangKey("en");
+        anotherUser.setProfileType(true);
         userRepository.saveAndFlush(anotherUser);
+  
         userSearchRepository.save(anotherUser);
 
         // Update the user
@@ -464,7 +466,7 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            authorities, updatedUser.isProfileType());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -488,6 +490,7 @@ public class UserResourceIntTest {
         anotherUser.setLastName("hipster");
         anotherUser.setImageUrl("");
         anotherUser.setLangKey("en");
+        anotherUser.setProfileType(true);
         userRepository.saveAndFlush(anotherUser);
         userSearchRepository.save(anotherUser);
 
@@ -510,7 +513,7 @@ public class UserResourceIntTest {
             updatedUser.getCreatedDate(),
             updatedUser.getLastModifiedBy(),
             updatedUser.getLastModifiedDate(),
-            authorities);
+            authorities, updatedUser.isProfileType());
 
         restUserMockMvc.perform(put("/api/users")
             .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -584,7 +587,7 @@ public class UserResourceIntTest {
             null,
             DEFAULT_LOGIN,
             null,
-            Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()));
+            Stream.of(AuthoritiesConstants.USER).collect(Collectors.toSet()), true);
         User user = userMapper.userDTOToUser(userDTO);
         assertThat(user.getId()).isEqualTo(DEFAULT_ID);
         assertThat(user.getLogin()).isEqualTo(DEFAULT_LOGIN);

@@ -3,6 +3,8 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
+import { JhiDateUtils } from 'ng-jhipster';
+
 import { Availability } from './availability.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
@@ -12,7 +14,7 @@ export class AvailabilityService {
     private resourceUrl = SERVER_API_URL + 'api/availabilities';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/availabilities';
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
 
     create(availability: Availability): Observable<Availability> {
         const copy = this.convert(availability);
@@ -67,6 +69,10 @@ export class AvailabilityService {
      */
     private convertItemFromServer(json: any): Availability {
         const entity: Availability = Object.assign(new Availability(), json);
+        entity.effectiveDate = this.dateUtils
+            .convertDateTimeFromServer(json.effectiveDate);
+        entity.deactivatedDate = this.dateUtils
+            .convertDateTimeFromServer(json.deactivatedDate);
         return entity;
     }
 
@@ -75,6 +81,10 @@ export class AvailabilityService {
      */
     private convert(availability: Availability): Availability {
         const copy: Availability = Object.assign({}, availability);
+
+        copy.effectiveDate = this.dateUtils.toDate(availability.effectiveDate);
+
+        copy.deactivatedDate = this.dateUtils.toDate(availability.deactivatedDate);
         return copy;
     }
 }

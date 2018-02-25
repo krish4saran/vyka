@@ -18,8 +18,6 @@ public interface ProfileSubjectMapper extends EntityMapper<ProfileSubjectDTO, Pr
     @Mapping(source = "profileId", target = "profile")
     @Mapping(source = "subjectId", target = "subject")
     @Mapping(target = "reviews", ignore = true)
-    @Mapping(target = "levels", ignore = true)
-    @Mapping(target = "rates", ignore = true)
     ProfileSubject toEntity(ProfileSubjectDTO profileSubjectDTO);
 
     default ProfileSubject fromId(Long id) {

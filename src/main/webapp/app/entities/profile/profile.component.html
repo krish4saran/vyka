@@ -37,9 +37,10 @@
             <th jhiSortBy="video1"><span>Video 1</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="video2"><span>Video 2</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="backgroundChecked"><span>Background Checked</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="created"><span>Created</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="updated"><span>Updated</span> <span class="fa fa-sort"></span></th>
-            <th jhiSortBy="locationId"><span>Location</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="city"><span>City</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="state"><span>State</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="country"><span>Country</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="timeZone"><span>Time Zone</span> <span class="fa fa-sort"></span></th>
             <th></th>
             </tr>
             </thead>
@@ -64,13 +65,10 @@
                     <span *ngIf="profile.video2">{{profile.video2ContentType}}, {{byteSize(profile.video2)}}</span>
                 </td>
                 <td>{{profile.backgroundChecked}}</td>
-                <td>{{profile.created | date:'medium'}}</td>
-                <td>{{profile.updated | date:'medium'}}</td>
-                <td>
-                    <div *ngIf="profile.locationId">
-                        <a [routerLink]="['../location', profile.locationId  ]" >{{profile.locationId}}</a>
-                    </div>
-                </td>
+                <td>{{profile.city}}</td>
+                <td>{{profile.state}}</td>
+                <td>{{profile.country}}</td>
+                <td>{{profile.timeZone}}</td>
                 <td class="text-right">
                     <div class="btn-group flex-btn-group-container">
                         <button type="submit"

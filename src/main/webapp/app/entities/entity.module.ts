@@ -22,6 +22,8 @@ import { VykaPaymentModule } from './payment/payment.module';
 import { VykaSettlementModule } from './settlement/settlement.module';
 import { VykaCreditCardPaymentModule } from './credit-card-payment/credit-card-payment.module';
 import { VykaPaypalPaymentModule } from './paypal-payment/paypal-payment.module';
+import { CreateProfileModule } from './create-profile/create-profile.module';
+import { VykaSubjectLevelModule } from './subject-level/subject-level.module';
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
 @NgModule({
@@ -48,6 +50,8 @@ import { VykaPaypalPaymentModule } from './paypal-payment/paypal-payment.module'
         VykaSettlementModule,
         VykaCreditCardPaymentModule,
         VykaPaypalPaymentModule,
+         CreateProfileModule,
+        VykaSubjectLevelModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],

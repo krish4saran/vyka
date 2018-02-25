@@ -13,6 +13,7 @@ import {
     SubjectDeleteDialogComponent,
     subjectRoute,
     subjectPopupRoute,
+    SubjectResolvePagingParams,
 } from './';
 
 const ENTITY_STATES = [
@@ -43,6 +44,7 @@ const ENTITY_STATES = [
     providers: [
         SubjectService,
         SubjectPopupService,
+        SubjectResolvePagingParams,
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -34,18 +34,8 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="created" type="timestamp">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="updated" type="timestamp">
-                <constraints nullable="true" />
-            </column>
-
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="subject" columnName="created" columnDataType="datetime"/>
-        <dropDefaultValue tableName="subject" columnName="updated" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Availability e2e test', () => {
     let availabilityComponentsPage: AvailabilityComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -35,20 +36,32 @@ describe('Availability e2e test', () => {
     it('should create and save Availabilities', () => {
         availabilityComponentsPage.clickOnCreateButton();
         availabilityDialogPage.dayOfWeekSelectLastOption();
-        availabilityDialogPage.getAvailabileInput().isSelected().then(function(selected) {
+        availabilityDialogPage.getBookedInput().isSelected().then(function (selected) {
             if (selected) {
-                availabilityDialogPage.getAvailabileInput().click();
-                expect(availabilityDialogPage.getAvailabileInput().isSelected()).toBeFalsy();
+                availabilityDialogPage.getBookedInput().click();
+                expect(availabilityDialogPage.getBookedInput().isSelected()).toBeFalsy();
             } else {
-                availabilityDialogPage.getAvailabileInput().click();
-                expect(availabilityDialogPage.getAvailabileInput().isSelected()).toBeTruthy();
+                availabilityDialogPage.getBookedInput().click();
+                expect(availabilityDialogPage.getBookedInput().isSelected()).toBeTruthy();
             }
         });
-        availabilityDialogPage.timeZoneSelectLastOption();
+        availabilityDialogPage.getActiveInput().isSelected().then(function (selected) {
+            if (selected) {
+                availabilityDialogPage.getActiveInput().click();
+                expect(availabilityDialogPage.getActiveInput().isSelected()).toBeFalsy();
+            } else {
+                availabilityDialogPage.getActiveInput().click();
+                expect(availabilityDialogPage.getActiveInput().isSelected()).toBeTruthy();
+            }
+        });
+        availabilityDialogPage.setEffectiveDateInput(12310020012301);
+        expect(availabilityDialogPage.getEffectiveDateInput()).toMatch('2001-12-31T02:30');
+        availabilityDialogPage.setDeactivatedDateInput(12310020012301);
+        expect(availabilityDialogPage.getDeactivatedDateInput()).toMatch('2001-12-31T02:30');
         availabilityDialogPage.profileSelectLastOption();
         availabilityDialogPage.save();
         expect(availabilityDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -73,52 +86,62 @@ export class AvailabilityDialogPage {
     saveButton = element(by.css('.modal-footer .btn.btn-primary'));
     closeButton = element(by.css('button.close'));
     dayOfWeekSelect = element(by.css('select#field_dayOfWeek'));
-    availabileInput = element(by.css('input#field_availabile'));
-    timeZoneSelect = element(by.css('select#field_timeZone'));
+    bookedInput = element(by.css('input#field_booked'));
+    activeInput = element(by.css('input#field_active'));
+    effectiveDateInput = element(by.css('input#field_effectiveDate'));
+    deactivatedDateInput = element(by.css('input#field_deactivatedDate'));
     profileSelect = element(by.css('select#field_profile'));
 
     getModalTitle() {
         return this.modalTitle.getText();
     }
 
-    setDayOfWeekSelect = function(dayOfWeek) {
+    setDayOfWeekSelect = function (dayOfWeek) {
         this.dayOfWeekSelect.sendKeys(dayOfWeek);
     }
 
-    getDayOfWeekSelect = function() {
+    getDayOfWeekSelect = function () {
         return this.dayOfWeekSelect.element(by.css('option:checked')).getText();
     }
 
-    dayOfWeekSelectLastOption = function() {
+    dayOfWeekSelectLastOption = function () {
         this.dayOfWeekSelect.all(by.tagName('option')).last().click();
     }
-    getAvailabileInput = function() {
-        return this.availabileInput;
+    getBookedInput = function () {
+        return this.bookedInput;
     }
-    setTimeZoneSelect = function(timeZone) {
-        this.timeZoneSelect.sendKeys(timeZone);
+    getActiveInput = function () {
+        return this.activeInput;
+    }
+    setEffectiveDateInput = function (effectiveDate) {
+        this.effectiveDateInput.sendKeys(effectiveDate);
     }
 
-    getTimeZoneSelect = function() {
-        return this.timeZoneSelect.element(by.css('option:checked')).getText();
+    getEffectiveDateInput = function () {
+        return this.effectiveDateInput.getAttribute('value');
     }
 
-    timeZoneSelectLastOption = function() {
-        this.timeZoneSelect.all(by.tagName('option')).last().click();
+    setDeactivatedDateInput = function (deactivatedDate) {
+        this.deactivatedDateInput.sendKeys(deactivatedDate);
     }
-    profileSelectLastOption = function() {
+
+    getDeactivatedDateInput = function () {
+        return this.deactivatedDateInput.getAttribute('value');
+    }
+
+    profileSelectLastOption = function () {
         this.profileSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSelectOption = function(option) {
+    profileSelectOption = function (option) {
         this.profileSelect.sendKeys(option);
     }
 
-    getProfileSelect = function() {
+    getProfileSelect = function () {
         return this.profileSelect;
     }
 
-    getProfileSelectedOption = function() {
+    getProfileSelectedOption = function () {
         return this.profileSelect.element(by.css('option:checked')).getText();
     }
 

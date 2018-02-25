@@ -9,7 +9,6 @@ import { JhiEventManager, JhiAlertService, JhiDataUtils } from 'ng-jhipster';
 import { Profile } from './profile.model';
 import { ProfilePopupService } from './profile-popup.service';
 import { ProfileService } from './profile.service';
-import { Location, LocationService } from '../location';
 import { Language, LanguageService } from '../language';
 import { ResponseWrapper } from '../../shared';
 
@@ -22,8 +21,6 @@ export class ProfileDialogComponent implements OnInit {
     profile: Profile;
     isSaving: boolean;
 
-    locations: Location[];
-
     languages: Language[];
 
     constructor(
@@ -31,7 +28,6 @@ export class ProfileDialogComponent implements OnInit {
         private dataUtils: JhiDataUtils,
         private jhiAlertService: JhiAlertService,
         private profileService: ProfileService,
-        private locationService: LocationService,
         private languageService: LanguageService,
         private elementRef: ElementRef,
         private eventManager: JhiEventManager
@@ -40,19 +36,6 @@ export class ProfileDialogComponent implements OnInit {
 
     ngOnInit() {
         this.isSaving = false;
-        this.locationService
-            .query({filter: 'profile-is-null'})
-            .subscribe((res: ResponseWrapper) => {
-                if (!this.profile.locationId) {
-                    this.locations = res.json;
-                } else {
-                    this.locationService
-                        .find(this.profile.locationId)
-                        .subscribe((subRes: Location) => {
-                            this.locations = [subRes].concat(res.json);
-                        }, (subRes: ResponseWrapper) => this.onError(subRes.json));
-                }
-            }, (res: ResponseWrapper) => this.onError(res.json));
         this.languageService.query()
             .subscribe((res: ResponseWrapper) => { this.languages = res.json; }, (res: ResponseWrapper) => this.onError(res.json));
     }
@@ -105,10 +88,6 @@ export class ProfileDialogComponent implements OnInit {
 
     private onError(error: any) {
         this.jhiAlertService.error(error.message, null, null);
-    }
-
-    trackLocationById(index: number, item: Location) {
-        return item.id;
     }
 
     trackLanguageById(index: number, item: Language) {

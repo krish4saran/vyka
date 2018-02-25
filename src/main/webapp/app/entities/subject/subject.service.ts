@@ -3,8 +3,6 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
-
 import { Subject } from './subject.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
@@ -14,7 +12,7 @@ export class SubjectService {
     private resourceUrl = SERVER_API_URL + 'api/subjects';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/subjects';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http) { }
 
     create(subject: Subject): Observable<Subject> {
         const copy = this.convert(subject);
@@ -69,10 +67,6 @@ export class SubjectService {
      */
     private convertItemFromServer(json: any): Subject {
         const entity: Subject = Object.assign(new Subject(), json);
-        entity.created = this.dateUtils
-            .convertDateTimeFromServer(json.created);
-        entity.updated = this.dateUtils
-            .convertDateTimeFromServer(json.updated);
         return entity;
     }
 
@@ -81,10 +75,6 @@ export class SubjectService {
      */
     private convert(subject: Subject): Subject {
         const copy: Subject = Object.assign({}, subject);
-
-        copy.created = this.dateUtils.toDate(subject.created);
-
-        copy.updated = this.dateUtils.toDate(subject.updated);
         return copy;
     }
 }

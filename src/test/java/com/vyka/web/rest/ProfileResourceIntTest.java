@@ -26,8 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.vyka.web.rest.TestUtil.createFormattingConversionService;
@@ -36,6 +34,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.vyka.domain.enumeration.TimeZones;
 /**
  * Test class for the ProfileResource REST controller.
  *
@@ -72,11 +71,17 @@ public class ProfileResourceIntTest {
     private static final Boolean DEFAULT_BACKGROUND_CHECKED = false;
     private static final Boolean UPDATED_BACKGROUND_CHECKED = true;
 
-    private static final Instant DEFAULT_CREATED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_CITY = "AAAAAAAAAA";
+    private static final String UPDATED_CITY = "BBBBBBBBBB";
 
-    private static final Instant DEFAULT_UPDATED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_UPDATED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_STATE = "AA";
+    private static final String UPDATED_STATE = "BB";
+
+    private static final String DEFAULT_COUNTRY = "AAA";
+    private static final String UPDATED_COUNTRY = "BBB";
+
+    private static final TimeZones DEFAULT_TIME_ZONE = TimeZones.IST;
+    private static final TimeZones UPDATED_TIME_ZONE = TimeZones.CST;
 
     @Autowired
     private ProfileRepository profileRepository;
@@ -135,8 +140,10 @@ public class ProfileResourceIntTest {
             .video2(DEFAULT_VIDEO_2)
             .video2ContentType(DEFAULT_VIDEO_2_CONTENT_TYPE)
             .backgroundChecked(DEFAULT_BACKGROUND_CHECKED)
-            .created(DEFAULT_CREATED)
-            .updated(DEFAULT_UPDATED);
+            .city(DEFAULT_CITY)
+            .state(DEFAULT_STATE)
+            .country(DEFAULT_COUNTRY)
+            .timeZone(DEFAULT_TIME_ZONE);
         return profile;
     }
 
@@ -172,8 +179,10 @@ public class ProfileResourceIntTest {
         assertThat(testProfile.getVideo2()).isEqualTo(DEFAULT_VIDEO_2);
         assertThat(testProfile.getVideo2ContentType()).isEqualTo(DEFAULT_VIDEO_2_CONTENT_TYPE);
         assertThat(testProfile.isBackgroundChecked()).isEqualTo(DEFAULT_BACKGROUND_CHECKED);
-        assertThat(testProfile.getCreated()).isEqualTo(DEFAULT_CREATED);
-        assertThat(testProfile.getUpdated()).isEqualTo(DEFAULT_UPDATED);
+        assertThat(testProfile.getCity()).isEqualTo(DEFAULT_CITY);
+        assertThat(testProfile.getState()).isEqualTo(DEFAULT_STATE);
+        assertThat(testProfile.getCountry()).isEqualTo(DEFAULT_COUNTRY);
+        assertThat(testProfile.getTimeZone()).isEqualTo(DEFAULT_TIME_ZONE);
 
         // Validate the Profile in Elasticsearch
         Profile profileEs = profileSearchRepository.findOne(testProfile.getId());
@@ -221,44 +230,6 @@ public class ProfileResourceIntTest {
 
     @Test
     @Transactional
-    public void checkDescriptionIsRequired() throws Exception {
-        int databaseSizeBeforeTest = profileRepository.findAll().size();
-        // set the field null
-        profile.setDescription(null);
-
-        // Create the Profile, which fails.
-        ProfileDTO profileDTO = profileMapper.toDto(profile);
-
-        restProfileMockMvc.perform(post("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profileDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Profile> profileList = profileRepository.findAll();
-        assertThat(profileList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkCreatedIsRequired() throws Exception {
-        int databaseSizeBeforeTest = profileRepository.findAll().size();
-        // set the field null
-        profile.setCreated(null);
-
-        // Create the Profile, which fails.
-        ProfileDTO profileDTO = profileMapper.toDto(profile);
-
-        restProfileMockMvc.perform(post("/api/profiles")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(profileDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Profile> profileList = profileRepository.findAll();
-        assertThat(profileList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllProfiles() throws Exception {
         // Initialize the database
         profileRepository.saveAndFlush(profile);
@@ -278,8 +249,10 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.[*].video2ContentType").value(hasItem(DEFAULT_VIDEO_2_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].video2").value(hasItem(Base64Utils.encodeToString(DEFAULT_VIDEO_2))))
             .andExpect(jsonPath("$.[*].backgroundChecked").value(hasItem(DEFAULT_BACKGROUND_CHECKED.booleanValue())))
-            .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
-            .andExpect(jsonPath("$.[*].updated").value(hasItem(DEFAULT_UPDATED.toString())));
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
+            .andExpect(jsonPath("$.[*].timeZone").value(hasItem(DEFAULT_TIME_ZONE.toString())));
     }
 
     @Test
@@ -303,8 +276,10 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.video2ContentType").value(DEFAULT_VIDEO_2_CONTENT_TYPE))
             .andExpect(jsonPath("$.video2").value(Base64Utils.encodeToString(DEFAULT_VIDEO_2)))
             .andExpect(jsonPath("$.backgroundChecked").value(DEFAULT_BACKGROUND_CHECKED.booleanValue()))
-            .andExpect(jsonPath("$.created").value(DEFAULT_CREATED.toString()))
-            .andExpect(jsonPath("$.updated").value(DEFAULT_UPDATED.toString()));
+            .andExpect(jsonPath("$.city").value(DEFAULT_CITY.toString()))
+            .andExpect(jsonPath("$.state").value(DEFAULT_STATE.toString()))
+            .andExpect(jsonPath("$.country").value(DEFAULT_COUNTRY.toString()))
+            .andExpect(jsonPath("$.timeZone").value(DEFAULT_TIME_ZONE.toString()));
     }
 
     @Test
@@ -336,8 +311,10 @@ public class ProfileResourceIntTest {
             .video2(UPDATED_VIDEO_2)
             .video2ContentType(UPDATED_VIDEO_2_CONTENT_TYPE)
             .backgroundChecked(UPDATED_BACKGROUND_CHECKED)
-            .created(UPDATED_CREATED)
-            .updated(UPDATED_UPDATED);
+            .city(UPDATED_CITY)
+            .state(UPDATED_STATE)
+            .country(UPDATED_COUNTRY)
+            .timeZone(UPDATED_TIME_ZONE);
         ProfileDTO profileDTO = profileMapper.toDto(updatedProfile);
 
         restProfileMockMvc.perform(put("/api/profiles")
@@ -359,8 +336,10 @@ public class ProfileResourceIntTest {
         assertThat(testProfile.getVideo2()).isEqualTo(UPDATED_VIDEO_2);
         assertThat(testProfile.getVideo2ContentType()).isEqualTo(UPDATED_VIDEO_2_CONTENT_TYPE);
         assertThat(testProfile.isBackgroundChecked()).isEqualTo(UPDATED_BACKGROUND_CHECKED);
-        assertThat(testProfile.getCreated()).isEqualTo(UPDATED_CREATED);
-        assertThat(testProfile.getUpdated()).isEqualTo(UPDATED_UPDATED);
+        assertThat(testProfile.getCity()).isEqualTo(UPDATED_CITY);
+        assertThat(testProfile.getState()).isEqualTo(UPDATED_STATE);
+        assertThat(testProfile.getCountry()).isEqualTo(UPDATED_COUNTRY);
+        assertThat(testProfile.getTimeZone()).isEqualTo(UPDATED_TIME_ZONE);
 
         // Validate the Profile in Elasticsearch
         Profile profileEs = profileSearchRepository.findOne(testProfile.getId());
@@ -430,8 +409,10 @@ public class ProfileResourceIntTest {
             .andExpect(jsonPath("$.[*].video2ContentType").value(hasItem(DEFAULT_VIDEO_2_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].video2").value(hasItem(Base64Utils.encodeToString(DEFAULT_VIDEO_2))))
             .andExpect(jsonPath("$.[*].backgroundChecked").value(hasItem(DEFAULT_BACKGROUND_CHECKED.booleanValue())))
-            .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
-            .andExpect(jsonPath("$.[*].updated").value(hasItem(DEFAULT_UPDATED.toString())));
+            .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY.toString())))
+            .andExpect(jsonPath("$.[*].state").value(hasItem(DEFAULT_STATE.toString())))
+            .andExpect(jsonPath("$.[*].country").value(hasItem(DEFAULT_COUNTRY.toString())))
+            .andExpect(jsonPath("$.[*].timeZone").value(hasItem(DEFAULT_TIME_ZONE.toString())));
     }
 
     @Test

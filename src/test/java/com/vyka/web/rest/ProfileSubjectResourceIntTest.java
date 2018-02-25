@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.vyka.web.rest.TestUtil.createFormattingConversionService;
@@ -33,6 +34,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import com.vyka.domain.enumeration.LevelValue;
 /**
  * Test class for the ProfileSubjectResource REST controller.
  *
@@ -41,6 +43,21 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = VykaApp.class)
 public class ProfileSubjectResourceIntTest {
+
+    private static final LevelValue DEFAULT_LEVEL = LevelValue.BEGINNER;
+    private static final LevelValue UPDATED_LEVEL = LevelValue.INTERMEDIATE;
+
+    private static final BigDecimal DEFAULT_RATE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_RATE = new BigDecimal(2);
+
+    private static final Boolean DEFAULT_SPONSORED = false;
+    private static final Boolean UPDATED_SPONSORED = true;
+
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
+
+    private static final BigDecimal DEFAULT_TOTAL_RATING = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_RATING = new BigDecimal(2);
 
     @Autowired
     private ProfileSubjectRepository profileSubjectRepository;
@@ -88,7 +105,12 @@ public class ProfileSubjectResourceIntTest {
      * if they test an entity which requires the current entity.
      */
     public static ProfileSubject createEntity(EntityManager em) {
-        ProfileSubject profileSubject = new ProfileSubject();
+        ProfileSubject profileSubject = new ProfileSubject()
+            .level(DEFAULT_LEVEL)
+            .rate(DEFAULT_RATE)
+            .sponsored(DEFAULT_SPONSORED)
+            .active(DEFAULT_ACTIVE)
+            .totalRating(DEFAULT_TOTAL_RATING);
         return profileSubject;
     }
 
@@ -114,6 +136,11 @@ public class ProfileSubjectResourceIntTest {
         List<ProfileSubject> profileSubjectList = profileSubjectRepository.findAll();
         assertThat(profileSubjectList).hasSize(databaseSizeBeforeCreate + 1);
         ProfileSubject testProfileSubject = profileSubjectList.get(profileSubjectList.size() - 1);
+        assertThat(testProfileSubject.getLevel()).isEqualTo(DEFAULT_LEVEL);
+        assertThat(testProfileSubject.getRate()).isEqualTo(DEFAULT_RATE);
+        assertThat(testProfileSubject.isSponsored()).isEqualTo(DEFAULT_SPONSORED);
+        assertThat(testProfileSubject.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testProfileSubject.getTotalRating()).isEqualTo(DEFAULT_TOTAL_RATING);
 
         // Validate the ProfileSubject in Elasticsearch
         ProfileSubject profileSubjectEs = profileSubjectSearchRepository.findOne(testProfileSubject.getId());
@@ -150,7 +177,12 @@ public class ProfileSubjectResourceIntTest {
         restProfileSubjectMockMvc.perform(get("/api/profile-subjects?sort=id,desc"))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(profileSubject.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(profileSubject.getId().intValue())))
+            .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].sponsored").value(hasItem(DEFAULT_SPONSORED.booleanValue())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].totalRating").value(hasItem(DEFAULT_TOTAL_RATING.intValue())));
     }
 
     @Test
@@ -163,7 +195,12 @@ public class ProfileSubjectResourceIntTest {
         restProfileSubjectMockMvc.perform(get("/api/profile-subjects/{id}", profileSubject.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.id").value(profileSubject.getId().intValue()));
+            .andExpect(jsonPath("$.id").value(profileSubject.getId().intValue()))
+            .andExpect(jsonPath("$.level").value(DEFAULT_LEVEL.toString()))
+            .andExpect(jsonPath("$.rate").value(DEFAULT_RATE.intValue()))
+            .andExpect(jsonPath("$.sponsored").value(DEFAULT_SPONSORED.booleanValue()))
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.totalRating").value(DEFAULT_TOTAL_RATING.intValue()));
     }
 
     @Test
@@ -184,6 +221,12 @@ public class ProfileSubjectResourceIntTest {
 
         // Update the profileSubject
         ProfileSubject updatedProfileSubject = profileSubjectRepository.findOne(profileSubject.getId());
+        updatedProfileSubject
+            .level(UPDATED_LEVEL)
+            .rate(UPDATED_RATE)
+            .sponsored(UPDATED_SPONSORED)
+            .active(UPDATED_ACTIVE)
+            .totalRating(UPDATED_TOTAL_RATING);
         ProfileSubjectDTO profileSubjectDTO = profileSubjectMapper.toDto(updatedProfileSubject);
 
         restProfileSubjectMockMvc.perform(put("/api/profile-subjects")
@@ -195,6 +238,11 @@ public class ProfileSubjectResourceIntTest {
         List<ProfileSubject> profileSubjectList = profileSubjectRepository.findAll();
         assertThat(profileSubjectList).hasSize(databaseSizeBeforeUpdate);
         ProfileSubject testProfileSubject = profileSubjectList.get(profileSubjectList.size() - 1);
+        assertThat(testProfileSubject.getLevel()).isEqualTo(UPDATED_LEVEL);
+        assertThat(testProfileSubject.getRate()).isEqualTo(UPDATED_RATE);
+        assertThat(testProfileSubject.isSponsored()).isEqualTo(UPDATED_SPONSORED);
+        assertThat(testProfileSubject.isActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testProfileSubject.getTotalRating()).isEqualTo(UPDATED_TOTAL_RATING);
 
         // Validate the ProfileSubject in Elasticsearch
         ProfileSubject profileSubjectEs = profileSubjectSearchRepository.findOne(testProfileSubject.getId());
@@ -253,7 +301,12 @@ public class ProfileSubjectResourceIntTest {
         restProfileSubjectMockMvc.perform(get("/api/_search/profile-subjects?query=id:" + profileSubject.getId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(profileSubject.getId().intValue())));
+            .andExpect(jsonPath("$.[*].id").value(hasItem(profileSubject.getId().intValue())))
+            .andExpect(jsonPath("$.[*].level").value(hasItem(DEFAULT_LEVEL.toString())))
+            .andExpect(jsonPath("$.[*].rate").value(hasItem(DEFAULT_RATE.intValue())))
+            .andExpect(jsonPath("$.[*].sponsored").value(hasItem(DEFAULT_SPONSORED.booleanValue())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].totalRating").value(hasItem(DEFAULT_TOTAL_RATING.intValue())));
     }
 
     @Test

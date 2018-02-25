@@ -30,6 +30,11 @@
             <thead>
             <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
             <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="level"><span>Level</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="rate"><span>Rate</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="sponsored"><span>Sponsored</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="active"><span>Active</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="totalRating"><span>Total Rating</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="profileId"><span>Profile</span> <span class="fa fa-sort"></span></th>
             <th jhiSortBy="subjectId"><span>Subject</span> <span class="fa fa-sort"></span></th>
             <th></th>
@@ -38,6 +43,11 @@
             <tbody>
             <tr *ngFor="let profileSubject of profileSubjects ;trackBy: trackId">
                 <td><a [routerLink]="['../profile-subject', profileSubject.id ]">{{profileSubject.id}}</a></td>
+                <td>{{profileSubject.level}}</td>
+                <td>{{profileSubject.rate}}</td>
+                <td>{{profileSubject.sponsored}}</td>
+                <td>{{profileSubject.active}}</td>
+                <td>{{profileSubject.totalRating}}</td>
                 <td>
                     <div *ngIf="profileSubject.profileId">
                         <a [routerLink]="['../profile', profileSubject.profileId  ]" >{{profileSubject.profileId}}</a>

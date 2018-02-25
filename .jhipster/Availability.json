@@ -12,25 +12,27 @@
         {
             "fieldName": "dayOfWeek",
             "fieldType": "DayOfWeek",
-            "fieldValues": "SUN,MON,TUE,WED,THU,FRI,SAT",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldValues": "SUN,MON,TUE,WED,THU,FRI,SAT"
         },
         {
-            "fieldName": "availabile",
+            "fieldName": "booked",
             "fieldType": "Boolean"
         },
         {
-            "fieldName": "timeZone",
-            "fieldType": "TimeZones",
-            "fieldValues": "IST,CST,PST,EST",
-            "fieldValidateRules": [
-                "required"
-            ]
+            "fieldName": "active",
+            "fieldType": "Boolean"
+        },
+        {
+            "fieldName": "effectiveDate",
+            "fieldType": "Instant"
+        },
+        {
+            "fieldName": "deactivatedDate",
+            "fieldType": "Instant"
         }
     ],
     "changelogDate": "20180107191743",
+    "javadoc": "Location available will be provided by configuration\nso avoiding constraints for country",
     "entityTableName": "availability",
     "dto": "mapstruct",
     "pagination": "no",

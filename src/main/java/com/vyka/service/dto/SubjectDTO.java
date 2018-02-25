@@ -1,9 +1,10 @@
 package com.vyka.service.dto;
 
 
-import java.time.Instant;
 import javax.validation.constraints.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -20,11 +21,6 @@ public class SubjectDTO implements Serializable {
     private String description;
 
     private Boolean active;
-
-    @NotNull
-    private Instant created;
-
-    private Instant updated;
 
     public Long getId() {
         return id;
@@ -58,22 +54,6 @@ public class SubjectDTO implements Serializable {
         this.active = active;
     }
 
-    public Instant getCreated() {
-        return created;
-    }
-
-    public void setCreated(Instant created) {
-        this.created = created;
-    }
-
-    public Instant getUpdated() {
-        return updated;
-    }
-
-    public void setUpdated(Instant updated) {
-        this.updated = updated;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -102,8 +82,6 @@ public class SubjectDTO implements Serializable {
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", active='" + isActive() + "'" +
-            ", created='" + getCreated() + "'" +
-            ", updated='" + getUpdated() + "'" +
             "}";
     }
 }

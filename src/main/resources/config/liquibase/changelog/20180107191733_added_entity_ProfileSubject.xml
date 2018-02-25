@@ -22,6 +22,26 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
+            <column name="jhi_level" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="rate" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="sponsored" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="active" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="total_rating" type="decimal(10,2)">
+                <constraints nullable="true" />
+            </column>
+
             <column name="profile_id" type="bigint">
                 <constraints nullable="true" />
             </column>

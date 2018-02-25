@@ -8,10 +8,12 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+
+import com.vyka.domain.enumeration.TimeZones;
 
 /**
  * A Profile.
@@ -32,9 +34,8 @@ public class Profile implements Serializable {
     @Column(name = "user_id", nullable = false)
     private Long userId;
 
-    @NotNull
     @Lob
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
 
     @Column(name = "active")
@@ -64,43 +65,47 @@ public class Profile implements Serializable {
     @Column(name = "background_checked")
     private Boolean backgroundChecked;
 
-    @NotNull
-    @Column(name = "created", nullable = false)
-    private Instant created;
+    @Column(name = "city")
+    private String city;
 
-    @Column(name = "updated")
-    private Instant updated;
+    @Size(max = 2)
+    @Column(name = "state", length = 2)
+    private String state;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Location location;
+    @Size(max = 3)
+    @Column(name = "country", length = 3)
+    private String country;
 
-    @OneToMany(mappedBy = "profile")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "time_zone")
+    private TimeZones timeZone;
+
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ProfileSubject> profileSubjects = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Education> educations = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Experience> experiences = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Award> awards = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile")
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Availability> availabilities = new HashSet<>();
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "profile_language",
                joinColumns = @JoinColumn(name="profiles_id", referencedColumnName="id"),
@@ -246,43 +251,56 @@ public class Profile implements Serializable {
         this.backgroundChecked = backgroundChecked;
     }
 
-    public Instant getCreated() {
-        return created;
+    public String getCity() {
+        return city;
     }
 
-    public Profile created(Instant created) {
-        this.created = created;
+    public Profile city(String city) {
+        this.city = city;
         return this;
     }
 
-    public void setCreated(Instant created) {
-        this.created = created;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public Instant getUpdated() {
-        return updated;
+    public String getState() {
+        return state;
     }
 
-    public Profile updated(Instant updated) {
-        this.updated = updated;
+    public Profile state(String state) {
+        this.state = state;
         return this;
     }
 
-    public void setUpdated(Instant updated) {
-        this.updated = updated;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public Location getLocation() {
-        return location;
+    public String getCountry() {
+        return country;
     }
 
-    public Profile location(Location location) {
-        this.location = location;
+    public Profile country(String country) {
+        this.country = country;
         return this;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public TimeZones getTimeZone() {
+        return timeZone;
+    }
+
+    public Profile timeZone(TimeZones timeZone) {
+        this.timeZone = timeZone;
+        return this;
+    }
+
+    public void setTimeZone(TimeZones timeZone) {
+        this.timeZone = timeZone;
     }
 
     public Set<ProfileSubject> getProfileSubjects() {
@@ -456,22 +474,54 @@ public class Profile implements Serializable {
         return Objects.hashCode(getId());
     }
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-            "id=" + getId() +
-            ", userId='" + getUserId() + "'" +
-            ", description='" + getDescription() + "'" +
-            ", active='" + isActive() + "'" +
-            ", image='" + getImage() + "'" +
-            ", imageContentType='" + imageContentType + "'" +
-            ", video1='" + getVideo1() + "'" +
-            ", video1ContentType='" + video1ContentType + "'" +
-            ", video2='" + getVideo2() + "'" +
-            ", video2ContentType='" + video2ContentType + "'" +
-            ", backgroundChecked='" + isBackgroundChecked() + "'" +
-            ", created='" + getCreated() + "'" +
-            ", updated='" + getUpdated() + "'" +
-            "}";
-    }
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Profile [id=");
+		builder.append(id);
+		builder.append(", userId=");
+		builder.append(userId);
+		builder.append(", description=");
+		builder.append(description);
+		builder.append(", active=");
+		builder.append(active);
+		builder.append(", image=");
+		builder.append(Arrays.toString(image));
+		builder.append(", imageContentType=");
+		builder.append(imageContentType);
+		builder.append(", video1=");
+		builder.append(Arrays.toString(video1));
+		builder.append(", video1ContentType=");
+		builder.append(video1ContentType);
+		builder.append(", video2=");
+		builder.append(Arrays.toString(video2));
+		builder.append(", video2ContentType=");
+		builder.append(video2ContentType);
+		builder.append(", backgroundChecked=");
+		builder.append(backgroundChecked);
+		builder.append(", city=");
+		builder.append(city);
+		builder.append(", state=");
+		builder.append(state);
+		builder.append(", country=");
+		builder.append(country);
+		builder.append(", timeZone=");
+		builder.append(timeZone);
+		builder.append(", profileSubjects=");
+		builder.append(profileSubjects);
+		builder.append(", educations=");
+		builder.append(educations);
+		builder.append(", experiences=");
+		builder.append(experiences);
+		builder.append(", awards=");
+		builder.append(awards);
+		builder.append(", availabilities=");
+		builder.append(availabilities);
+		builder.append(", languages=");
+		builder.append(languages);
+		builder.append("]");
+		return builder.toString();
+	}
+
+ 
 }

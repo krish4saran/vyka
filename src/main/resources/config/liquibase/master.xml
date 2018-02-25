@@ -27,6 +27,7 @@
     <include file="config/liquibase/changelog/20180115043409_added_entity_Settlement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043410_added_entity_CreditCardPayment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043411_added_entity_PaypalPayment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180218025438_added_entity_SubjectLevel.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20180107191731_added_entity_constraints_Profile.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180107191733_added_entity_constraints_ProfileSubject.xml" relativeToChangelogFile="false"/>
@@ -46,7 +47,11 @@
     <include file="config/liquibase/changelog/20180115043409_added_entity_constraints_Settlement.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043410_added_entity_constraints_CreditCardPayment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043411_added_entity_constraints_PaypalPayment.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180218025438_added_entity_constraints_SubjectLevel.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <include file="config/liquibase/changelog/20180107193737_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180130052335_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20180205000856_changelog.xml" relativeToChangelogFile="false"/>
+    
     
 </databaseChangeLog>

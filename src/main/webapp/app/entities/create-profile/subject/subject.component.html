@@ -1,0 +1,20 @@
+
+<div>
+  <div class="container" *ngIf="subjects">
+        <h2>
+            <span><p class="font-weight-bold">Choose your subject</p></span>   
+        </h2>
+        <jhi-alert></jhi-alert>
+        <br>
+
+        <ul class="list-group list-group-flush mb-5">
+            <div *ngFor="let subject of subjects ;index as i">
+                <button type="button" 
+                        class="list-group-item list-group-item-action"
+                        (click)="addProfileSubject(subject.id)">
+                        {{subject.name}}  
+                </button>
+            </div>
+        </ul>
+    </div>
+</div>

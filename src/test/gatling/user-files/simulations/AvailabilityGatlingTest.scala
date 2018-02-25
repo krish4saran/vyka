@@ -68,7 +68,7 @@ class AvailabilityGatlingTest extends Simulation {
             .exec(http("Create new availability")
             .post("/api/availabilities")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "dayOfWeek":null, "availabile":null, "timeZone":null}""")).asJSON
+            .body(StringBody("""{"id":null, "dayOfWeek":null, "booked":null, "active":null, "effectiveDate":"2020-01-01T00:00:00.000Z", "deactivatedDate":"2020-01-01T00:00:00.000Z"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_availability_url"))).exitHereIfFailed
             .pause(10)

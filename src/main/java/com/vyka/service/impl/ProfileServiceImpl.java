@@ -107,4 +107,11 @@ public class ProfileServiceImpl implements ProfileService{
         Page<Profile> result = profileSearchRepository.search(queryStringQuery(query), pageable);
         return result.map(profileMapper::toDto);
     }
+
+	@Override
+	public ProfileDTO findProfileByUserId(Long userId) {
+		log.debug("Request to find profile by user Id");
+		Profile profile = profileRepository.findProfileByUserId(userId);
+        return profileMapper.toDto(profile);
+	}
 }

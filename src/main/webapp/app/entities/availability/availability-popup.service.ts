@@ -1,6 +1,7 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 import { Availability } from './availability.model';
 import { AvailabilityService } from './availability.service';
 
@@ -9,6 +10,7 @@ export class AvailabilityPopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
+        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private availabilityService: AvailabilityService
@@ -26,6 +28,10 @@ export class AvailabilityPopupService {
 
             if (id) {
                 this.availabilityService.find(id).subscribe((availability) => {
+                    availability.effectiveDate = this.datePipe
+                        .transform(availability.effectiveDate, 'yyyy-MM-ddTHH:mm:ss');
+                    availability.deactivatedDate = this.datePipe
+                        .transform(availability.deactivatedDate, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.availabilityModalRef(component, availability);
                     resolve(this.ngbModalRef);
                 });

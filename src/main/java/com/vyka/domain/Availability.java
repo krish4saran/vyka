@@ -1,22 +1,22 @@
 package com.vyka.domain;
 
+import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.LocalTime;
+import java.time.Instant;
 import java.util.Objects;
 
 import com.vyka.domain.enumeration.DayOfWeek;
 
-import com.vyka.domain.enumeration.TimeZones;
-
 /**
- * A Availability.
+ * Location available will be provided by configuration
+ * so avoiding constraints for country
  */
+@ApiModel(description = "Location available will be provided by configuration so avoiding constraints for country")
 @Entity
 @Table(name = "availability")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
@@ -29,27 +29,21 @@ public class Availability implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "startTime", nullable = false)
-    private LocalTime startTime;
-    
-
-	@NotNull
-    @Column(name = "endTime", nullable = false)
-    private LocalTime endTime;
-    
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "day_of_week", nullable = false)
+    @Column(name = "day_of_week")
     private DayOfWeek dayOfWeek;
 
-    @Column(name = "availabile")
-    private Boolean availabile;
+    @Column(name = "booked")
+    private Boolean booked;
 
-    @NotNull
-    @Enumerated(EnumType.STRING)
-    @Column(name = "time_zone", nullable = false)
-    private TimeZones timeZone;
+    @Column(name = "active")
+    private Boolean active;
+
+    @Column(name = "effective_date")
+    private Instant effectiveDate;
+
+    @Column(name = "deactivated_date")
+    private Instant deactivatedDate;
 
     @ManyToOne
     private Profile profile;
@@ -76,30 +70,56 @@ public class Availability implements Serializable {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Boolean isAvailabile() {
-        return availabile;
+    public Boolean isBooked() {
+        return booked;
     }
 
-    public Availability availabile(Boolean availabile) {
-        this.availabile = availabile;
+    public Availability booked(Boolean booked) {
+        this.booked = booked;
         return this;
     }
 
-    public void setAvailabile(Boolean availabile) {
-        this.availabile = availabile;
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
     }
 
-    public TimeZones getTimeZone() {
-        return timeZone;
+    public Boolean isActive() {
+        return active;
     }
 
-    public Availability timeZone(TimeZones timeZone) {
-        this.timeZone = timeZone;
+    public Availability active(Boolean active) {
+        this.active = active;
         return this;
     }
 
-    public void setTimeZone(TimeZones timeZone) {
-        this.timeZone = timeZone;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Instant getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public Availability effectiveDate(Instant effectiveDate) {
+        this.effectiveDate = effectiveDate;
+        return this;
+    }
+
+    public void setEffectiveDate(Instant effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Instant getDeactivatedDate() {
+        return deactivatedDate;
+    }
+
+    public Availability deactivatedDate(Instant deactivatedDate) {
+        this.deactivatedDate = deactivatedDate;
+        return this;
+    }
+
+    public void setDeactivatedDate(Instant deactivatedDate) {
+        this.deactivatedDate = deactivatedDate;
     }
 
     public Profile getProfile() {
@@ -114,23 +134,6 @@ public class Availability implements Serializable {
     public void setProfile(Profile profile) {
         this.profile = profile;
     }
-    
-    public LocalTime getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(LocalTime startTime) {
-		this.startTime = startTime;
-	}
-
-	public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
-	}
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override
@@ -158,10 +161,10 @@ public class Availability implements Serializable {
         return "Availability{" +
             "id=" + getId() +
             ", dayOfWeek='" + getDayOfWeek() + "'" +
-            ", availabile='" + isAvailabile() + "'" +
-            ", timeZone='" + getTimeZone() + "'" +
-            ", startTime='" + getStartTime() + "'" +
-            ", endTime='" + getEndTime() + "'" +
+            ", booked='" + isBooked() + "'" +
+            ", active='" + isActive() + "'" +
+            ", effectiveDate='" + getEffectiveDate() + "'" +
+            ", deactivatedDate='" + getDeactivatedDate() + "'" +
             "}";
     }
 }

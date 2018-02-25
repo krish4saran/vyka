@@ -23,15 +23,23 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="day_of_week" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="availabile" type="bit">
                 <constraints nullable="true" />
             </column>
 
-            <column name="time_zone" type="varchar(255)">
-                <constraints nullable="false" />
+            <column name="booked" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="active" type="bit">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="effective_date" type="timestamp">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="deactivated_date" type="timestamp">
+                <constraints nullable="true" />
             </column>
 
             <column name="profile_id" type="bigint">
@@ -40,6 +48,8 @@
 
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
+        <dropDefaultValue tableName="availability" columnName="effective_date" columnDataType="datetime"/>
+        <dropDefaultValue tableName="availability" columnName="deactivated_date" columnDataType="datetime"/>
         
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here, do not remove-->

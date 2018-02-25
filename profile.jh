@@ -1,50 +1,59 @@
 entity Profile{
  	userId Long required,
-    description TextBlob required,
+    description TextBlob,
     active Boolean,
     image ImageBlob,
     video1 Blob,
     video2 Blob,
     backgroundChecked Boolean,
-  
-    created Instant required,
-    updated Instant 
-    
+    city String,
+    state String maxlength(2),
+    country String maxlength(3),
+	timeZone TimeZones
+
 }
 
 entity Subject{
 	name String required,
     description String required,
-    active Boolean,
-    created Instant required,
-    updated Instant
+    active Boolean
 }
 
 entity ProfileSubject{
+	level LevelValue,
+    rate BigDecimal,
+    sponsored Boolean,
+    active Boolean,
+    totalRating BigDecimal
 }
 
-entity Level{
-	level LevelValue required
+entity SubjectLevel{
+	level LevelValue,
+    description Blob
 }
 
-entity Chapters{
-	description String required minlength(1) maxlength(100),
-    numberOfClasses Integer required min(1)
-}
+/*entity Level{
+*	level LevelValue required
+}*/
+
+/*entity Chapters{
+*	description String required minlength(1) maxlength(100),
+*    numberOfClasses Integer required min(1)
+}*/
 
 
-entity Rate{
-	rate BigDecimal required min(10),
-    created Instant required,
-    updated Instant
-}
+/*entity Rate{
+*	rate BigDecimal required min(10),
+*    created Instant required,
+*    updated Instant
+}*/
 
-entity ClassLength{
-  classLength Integer required min(30) max(60),
-  active Boolean required,
-  created Instant required,
-  updated Instant
-}
+/*entity ClassLength{
+*  classLength Integer required min(30) max(60),
+*  active Boolean required,
+*  created Instant required,
+*  updated Instant
+}*/
 
 entity Education{
 	course String required minlength(1) maxlength(50),
@@ -81,18 +90,19 @@ entity Award{
 /*Location available will be provided by configuration
 * so avoiding constraints for country
 */
-entity Location{
-	city String required,
-    state String maxlength(2) required,
-    country String maxlength(3) required
-}
+//entity Location{
+//	city String required,
+//    state String maxlength(2) required,
+//    country String maxlength(3) required
+//}
 
 
 entity Availability{
-    dayOfWeek DayOfWeek required,
-    availabile Boolean,
-    timeZone TimeZones required
-    
+    dayOfWeek DayOfWeek,
+    booked Boolean,
+    active Boolean,
+    effectiveDate Instant,
+    deactivatedDate Instant
 }
 
 enum LanguageValue {
@@ -128,21 +138,15 @@ relationship OneToMany {
     Profile{award} to Award,
     Profile{availability} to Availability,
     ProfileSubject{review} to Review,
-    Level{chapters} to Chapters,
-    ProfileSubject{level} to Level,
-    ProfileSubject{rate} to Rate
+    Subject{subject} to SubjectLevel
 }
 
 relationship OneToOne {
-	Profile{location} to Location
     ProfileSubject{subject} to Subject
 }
 
-relationship ManyToOne {
-	Rate{classLength} to ClassLength
-}
 
 dto * with mapstruct
 service all with serviceImpl
-paginate Profile, Review, ProfileSubject with pagination
+paginate Profile, Review, ProfileSubject, Subject with pagination
 search Profile, ProfileSubject with elasticsearch

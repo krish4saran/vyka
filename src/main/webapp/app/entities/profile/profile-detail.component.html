@@ -43,19 +43,21 @@
         <dd>
             <span>{{profile.backgroundChecked}}</span>
         </dd>
-        <dt><span>Created</span></dt>
+        <dt><span>City</span></dt>
         <dd>
-            <span>{{profile.created | date:'medium'}}</span>
+            <span>{{profile.city}}</span>
         </dd>
-        <dt><span>Updated</span></dt>
+        <dt><span>State</span></dt>
         <dd>
-            <span>{{profile.updated | date:'medium'}}</span>
+            <span>{{profile.state}}</span>
         </dd>
-        <dt><span>Location</span></dt>
+        <dt><span>Country</span></dt>
         <dd>
-            <div *ngIf="profile.locationId">
-                <a [routerLink]="['/location', profile.locationId]">{{profile.locationId}}</a>
-            </div>
+            <span>{{profile.country}}</span>
+        </dd>
+        <dt><span>Time Zone</span></dt>
+        <dd>
+            <span>{{profile.timeZone}}</span>
         </dd>
         <dt><span>Language</span></dt>
         <dd>

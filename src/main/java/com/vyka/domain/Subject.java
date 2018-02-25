@@ -1,5 +1,6 @@
 package com.vyka.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -7,7 +8,8 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.io.Serializable;
-import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
 
 /**
@@ -36,12 +38,10 @@ public class Subject implements Serializable {
     @Column(name = "active")
     private Boolean active;
 
-    @NotNull
-    @Column(name = "created", nullable = false)
-    private Instant created;
-
-    @Column(name = "updated")
-    private Instant updated;
+    @OneToMany(mappedBy = "subject")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<SubjectLevel> subjects = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
@@ -91,30 +91,29 @@ public class Subject implements Serializable {
         this.active = active;
     }
 
-    public Instant getCreated() {
-        return created;
+    public Set<SubjectLevel> getSubjects() {
+        return subjects;
     }
 
-    public Subject created(Instant created) {
-        this.created = created;
+    public Subject subjects(Set<SubjectLevel> subjectLevels) {
+        this.subjects = subjectLevels;
         return this;
     }
 
-    public void setCreated(Instant created) {
-        this.created = created;
-    }
-
-    public Instant getUpdated() {
-        return updated;
-    }
-
-    public Subject updated(Instant updated) {
-        this.updated = updated;
+    public Subject addSubject(SubjectLevel subjectLevel) {
+        this.subjects.add(subjectLevel);
+        subjectLevel.setSubject(this);
         return this;
     }
 
-    public void setUpdated(Instant updated) {
-        this.updated = updated;
+    public Subject removeSubject(SubjectLevel subjectLevel) {
+        this.subjects.remove(subjectLevel);
+        subjectLevel.setSubject(null);
+        return this;
+    }
+
+    public void setSubjects(Set<SubjectLevel> subjectLevels) {
+        this.subjects = subjectLevels;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -145,8 +144,6 @@ public class Subject implements Serializable {
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
             ", active='" + isActive() + "'" +
-            ", created='" + getCreated() + "'" +
-            ", updated='" + getUpdated() + "'" +
             "}";
     }
 }

@@ -87,6 +87,8 @@ public class CacheConfiguration {
             cm.createCache(com.vyka.domain.Schedule.class.getName() + ".scheduleActivities", jcacheConfiguration);
             cm.createCache(com.vyka.domain.OrderActivity.class.getName() + ".scheduleActivities", jcacheConfiguration);
             cm.createCache(com.vyka.domain.Payment.class.getName() + ".settlements", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.Subject.class.getName() + ".subjects", jcacheConfiguration);
+            cm.createCache(com.vyka.domain.SubjectLevel.class.getName(), jcacheConfiguration);
             // jhipster-needle-ehcache-add-entry
         };
     }

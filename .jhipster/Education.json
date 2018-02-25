@@ -37,6 +37,7 @@
         }
     ],
     "changelogDate": "20180107191738",
+    "javadoc": "entity ClassLength{\nclassLength Integer required min(30) max(60),\nactive Boolean required,\ncreated Instant required,\nupdated Instant\n}",
     "entityTableName": "education",
     "dto": "mapstruct",
     "pagination": "no",

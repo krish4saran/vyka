@@ -1,14 +1,12 @@
 package com.vyka.service.dto;
 
 
+import java.time.Instant;
 import java.io.Serializable;
-import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Objects;
-
-import javax.validation.constraints.NotNull;
-
 import com.vyka.domain.enumeration.DayOfWeek;
-import com.vyka.domain.enumeration.TimeZones;
 
 /**
  * A DTO for the Availability entity.
@@ -17,39 +15,19 @@ public class AvailabilityDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private DayOfWeek dayOfWeek;
 
-    private Boolean availabile;
+    private Boolean booked;
 
-    @NotNull
-    private TimeZones timeZone;
+    private Boolean active;
+
+    private Instant effectiveDate;
+
+    private Instant deactivatedDate;
 
     private Long profileId;
-    
-    private LocalTime endTime;
 
-    private LocalTime startTime;
-
-    
-
-    public LocalTime getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(LocalTime endTime) {
-		this.endTime = endTime;
-	}
-
-	public LocalTime getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(LocalTime startTime) {
-		this.startTime = startTime;
-	}
-
-	public Long getId() {
+    public Long getId() {
         return id;
     }
 
@@ -65,20 +43,36 @@ public class AvailabilityDTO implements Serializable {
         this.dayOfWeek = dayOfWeek;
     }
 
-    public Boolean isAvailabile() {
-        return availabile;
+    public Boolean isBooked() {
+        return booked;
     }
 
-    public void setAvailabile(Boolean availabile) {
-        this.availabile = availabile;
+    public void setBooked(Boolean booked) {
+        this.booked = booked;
     }
 
-    public TimeZones getTimeZone() {
-        return timeZone;
+    public Boolean isActive() {
+        return active;
     }
 
-    public void setTimeZone(TimeZones timeZone) {
-        this.timeZone = timeZone;
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Instant getEffectiveDate() {
+        return effectiveDate;
+    }
+
+    public void setEffectiveDate(Instant effectiveDate) {
+        this.effectiveDate = effectiveDate;
+    }
+
+    public Instant getDeactivatedDate() {
+        return deactivatedDate;
+    }
+
+    public void setDeactivatedDate(Instant deactivatedDate) {
+        this.deactivatedDate = deactivatedDate;
     }
 
     public Long getProfileId() {
@@ -115,8 +109,10 @@ public class AvailabilityDTO implements Serializable {
         return "AvailabilityDTO{" +
             "id=" + getId() +
             ", dayOfWeek='" + getDayOfWeek() + "'" +
-            ", availabile='" + isAvailabile() + "'" +
-            ", timeZone='" + getTimeZone() + "'" +
+            ", booked='" + isBooked() + "'" +
+            ", active='" + isActive() + "'" +
+            ", effectiveDate='" + getEffectiveDate() + "'" +
+            ", deactivatedDate='" + getDeactivatedDate() + "'" +
             "}";
     }
 }

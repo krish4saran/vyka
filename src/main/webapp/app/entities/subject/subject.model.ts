@@ -6,8 +6,7 @@ export class Subject implements BaseEntity {
         public name?: string,
         public description?: string,
         public active?: boolean,
-        public created?: any,
-        public updated?: any,
+        public subjects?: BaseEntity[],
     ) {
         this.active = false;
     }

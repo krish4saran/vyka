@@ -1,0 +1,38 @@
+
+<div *ngIf="subjectLevel">
+    <h2><span>Subject Level</span> {{subjectLevel.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Level</span></dt>
+        <dd>
+            <span>{{subjectLevel.level}}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+            <div *ngIf="subjectLevel.description">
+                <a (click)="openFile(subjectLevel.descriptionContentType, subjectLevel.description)">open</a>
+                {{subjectLevel.descriptionContentType}}, {{byteSize(subjectLevel.description)}}
+            </div>
+        </dd>
+        <dt><span>Subject</span></dt>
+        <dd>
+            <div *ngIf="subjectLevel.subjectId">
+                <a [routerLink]="['/subject', subjectLevel.subjectId]">{{subjectLevel.subjectId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'subject-level/'+ subjectLevel.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

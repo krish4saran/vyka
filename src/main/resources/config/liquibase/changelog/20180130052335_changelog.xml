@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+   <changeSet author="saranjithkrishnan (generated)" id="1517289837021-1">
+      <addColumn tableName="jhi_user">
+         <column name="profile_type" type="bit">
+            <constraints nullable="false"/>
+         </column>
+      </addColumn>
+   </changeSet>
+   <changeSet author="saranjithkrishnan (generated)" id="1517289837021-2">
+      <dropUniqueConstraint constraintName="user_id" tableName="jhi_social_user_connection"/>
+   </changeSet>
+   <changeSet author="saranjithkrishnan (generated)" id="1517289837021-3">
+      <dropUniqueConstraint constraintName="user_id_2" tableName="jhi_social_user_connection"/>
+   </changeSet>
+</databaseChangeLog>

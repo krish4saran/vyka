@@ -52,6 +52,8 @@ public class UserDTO {
     private Instant lastModifiedDate;
 
     private Set<String> authorities;
+    
+    private boolean profileType = false;
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -62,13 +64,13 @@ public class UserDTO {
             user.getEmail(), user.getActivated(), user.getImageUrl(), user.getLangKey(),
             user.getCreatedBy(), user.getCreatedDate(), user.getLastModifiedBy(), user.getLastModifiedDate(),
             user.getAuthorities().stream().map(Authority::getName)
-                .collect(Collectors.toSet()));
+                .collect(Collectors.toSet()), user.isProfileType());
     }
 
     public UserDTO(Long id, String login, String firstName, String lastName,
         String email, boolean activated, String imageUrl, String langKey,
         String createdBy, Instant createdDate, String lastModifiedBy, Instant lastModifiedDate,
-        Set<String> authorities) {
+        Set<String> authorities, boolean profileType) {
 
         this.id = id;
         this.login = login;
@@ -83,6 +85,7 @@ public class UserDTO {
         this.lastModifiedBy = lastModifiedBy;
         this.lastModifiedDate = lastModifiedDate;
         this.authorities = authorities;
+        this.profileType = profileType;
     }
 
     public Long getId() {
@@ -149,7 +152,13 @@ public class UserDTO {
         return authorities;
     }
 
-    @Override
+    
+    public boolean isProfileType() {
+		return profileType;
+	}
+
+
+	@Override
     public String toString() {
         return "UserDTO{" +
             "login='" + login + '\'' +
@@ -164,6 +173,7 @@ public class UserDTO {
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
             ", authorities=" + authorities +
+            ", profileType=" + profileType +
             "}";
     }
 }

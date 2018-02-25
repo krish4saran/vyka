@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Profile e2e test', () => {
     let profileComponentsPage: ProfileComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -38,7 +39,7 @@ describe('Profile e2e test', () => {
         expect(profileDialogPage.getUserIdInput()).toMatch('5');
         profileDialogPage.setDescriptionInput('description');
         expect(profileDialogPage.getDescriptionInput()).toMatch('description');
-        profileDialogPage.getActiveInput().isSelected().then(function(selected) {
+        profileDialogPage.getActiveInput().isSelected().then(function (selected) {
             if (selected) {
                 profileDialogPage.getActiveInput().click();
                 expect(profileDialogPage.getActiveInput().isSelected()).toBeFalsy();
@@ -50,7 +51,7 @@ describe('Profile e2e test', () => {
         profileDialogPage.setImageInput(absolutePath);
         profileDialogPage.setVideo1Input(absolutePath);
         profileDialogPage.setVideo2Input(absolutePath);
-        profileDialogPage.getBackgroundCheckedInput().isSelected().then(function(selected) {
+        profileDialogPage.getBackgroundCheckedInput().isSelected().then(function (selected) {
             if (selected) {
                 profileDialogPage.getBackgroundCheckedInput().click();
                 expect(profileDialogPage.getBackgroundCheckedInput().isSelected()).toBeFalsy();
@@ -59,15 +60,17 @@ describe('Profile e2e test', () => {
                 expect(profileDialogPage.getBackgroundCheckedInput().isSelected()).toBeTruthy();
             }
         });
-        profileDialogPage.setCreatedInput(12310020012301);
-        expect(profileDialogPage.getCreatedInput()).toMatch('2001-12-31T02:30');
-        profileDialogPage.setUpdatedInput(12310020012301);
-        expect(profileDialogPage.getUpdatedInput()).toMatch('2001-12-31T02:30');
-        profileDialogPage.locationSelectLastOption();
+        profileDialogPage.setCityInput('city');
+        expect(profileDialogPage.getCityInput()).toMatch('city');
+        profileDialogPage.setStateInput('state');
+        expect(profileDialogPage.getStateInput()).toMatch('state');
+        profileDialogPage.setCountryInput('country');
+        expect(profileDialogPage.getCountryInput()).toMatch('country');
+        profileDialogPage.timeZoneSelectLastOption();
         // profileDialogPage.languageSelectLastOption();
         profileDialogPage.save();
         expect(profileDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -98,106 +101,110 @@ export class ProfileDialogPage {
     video1Input = element(by.css('input#file_video1'));
     video2Input = element(by.css('input#file_video2'));
     backgroundCheckedInput = element(by.css('input#field_backgroundChecked'));
-    createdInput = element(by.css('input#field_created'));
-    updatedInput = element(by.css('input#field_updated'));
-    locationSelect = element(by.css('select#field_location'));
+    cityInput = element(by.css('input#field_city'));
+    stateInput = element(by.css('input#field_state'));
+    countryInput = element(by.css('input#field_country'));
+    timeZoneSelect = element(by.css('select#field_timeZone'));
     languageSelect = element(by.css('select#field_language'));
 
     getModalTitle() {
         return this.modalTitle.getText();
     }
 
-    setUserIdInput = function(userId) {
+    setUserIdInput = function (userId) {
         this.userIdInput.sendKeys(userId);
     }
 
-    getUserIdInput = function() {
+    getUserIdInput = function () {
         return this.userIdInput.getAttribute('value');
     }
 
-    setDescriptionInput = function(description) {
+    setDescriptionInput = function (description) {
         this.descriptionInput.sendKeys(description);
     }
 
-    getDescriptionInput = function() {
+    getDescriptionInput = function () {
         return this.descriptionInput.getAttribute('value');
     }
 
-    getActiveInput = function() {
+    getActiveInput = function () {
         return this.activeInput;
     }
-    setImageInput = function(image) {
+    setImageInput = function (image) {
         this.imageInput.sendKeys(image);
     }
 
-    getImageInput = function() {
+    getImageInput = function () {
         return this.imageInput.getAttribute('value');
     }
 
-    setVideo1Input = function(video1) {
+    setVideo1Input = function (video1) {
         this.video1Input.sendKeys(video1);
     }
 
-    getVideo1Input = function() {
+    getVideo1Input = function () {
         return this.video1Input.getAttribute('value');
     }
 
-    setVideo2Input = function(video2) {
+    setVideo2Input = function (video2) {
         this.video2Input.sendKeys(video2);
     }
 
-    getVideo2Input = function() {
+    getVideo2Input = function () {
         return this.video2Input.getAttribute('value');
     }
 
-    getBackgroundCheckedInput = function() {
+    getBackgroundCheckedInput = function () {
         return this.backgroundCheckedInput;
     }
-    setCreatedInput = function(created) {
-        this.createdInput.sendKeys(created);
+    setCityInput = function (city) {
+        this.cityInput.sendKeys(city);
     }
 
-    getCreatedInput = function() {
-        return this.createdInput.getAttribute('value');
+    getCityInput = function () {
+        return this.cityInput.getAttribute('value');
     }
 
-    setUpdatedInput = function(updated) {
-        this.updatedInput.sendKeys(updated);
+    setStateInput = function (state) {
+        this.stateInput.sendKeys(state);
     }
 
-    getUpdatedInput = function() {
-        return this.updatedInput.getAttribute('value');
+    getStateInput = function () {
+        return this.stateInput.getAttribute('value');
     }
 
-    locationSelectLastOption = function() {
-        this.locationSelect.all(by.tagName('option')).last().click();
+    setCountryInput = function (country) {
+        this.countryInput.sendKeys(country);
     }
 
-    locationSelectOption = function(option) {
-        this.locationSelect.sendKeys(option);
+    getCountryInput = function () {
+        return this.countryInput.getAttribute('value');
     }
 
-    getLocationSelect = function() {
-        return this.locationSelect;
+    setTimeZoneSelect = function (timeZone) {
+        this.timeZoneSelect.sendKeys(timeZone);
     }
 
-    getLocationSelectedOption = function() {
-        return this.locationSelect.element(by.css('option:checked')).getText();
+    getTimeZoneSelect = function () {
+        return this.timeZoneSelect.element(by.css('option:checked')).getText();
     }
 
-    languageSelectLastOption = function() {
+    timeZoneSelectLastOption = function () {
+        this.timeZoneSelect.all(by.tagName('option')).last().click();
+    }
+    languageSelectLastOption = function () {
         this.languageSelect.all(by.tagName('option')).last().click();
     }
 
-    languageSelectOption = function(option) {
+    languageSelectOption = function (option) {
         this.languageSelect.sendKeys(option);
     }
 
-    getLanguageSelect = function() {
+    getLanguageSelect = function () {
         return this.languageSelect;
     }
 
-    getLanguageSelectedOption = function() {
+    getLanguageSelectedOption = function () {
         return this.languageSelect.element(by.css('option:checked')).getText();
     }
 

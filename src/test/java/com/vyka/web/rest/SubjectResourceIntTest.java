@@ -25,8 +25,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
-import java.time.Instant;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.vyka.web.rest.TestUtil.createFormattingConversionService;
@@ -52,12 +50,6 @@ public class SubjectResourceIntTest {
 
     private static final Boolean DEFAULT_ACTIVE = false;
     private static final Boolean UPDATED_ACTIVE = true;
-
-    private static final Instant DEFAULT_CREATED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_CREATED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final Instant DEFAULT_UPDATED = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_UPDATED = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private SubjectRepository subjectRepository;
@@ -108,9 +100,7 @@ public class SubjectResourceIntTest {
         Subject subject = new Subject()
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION)
-            .active(DEFAULT_ACTIVE)
-            .created(DEFAULT_CREATED)
-            .updated(DEFAULT_UPDATED);
+            .active(DEFAULT_ACTIVE);
         return subject;
     }
 
@@ -139,8 +129,6 @@ public class SubjectResourceIntTest {
         assertThat(testSubject.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testSubject.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testSubject.isActive()).isEqualTo(DEFAULT_ACTIVE);
-        assertThat(testSubject.getCreated()).isEqualTo(DEFAULT_CREATED);
-        assertThat(testSubject.getUpdated()).isEqualTo(DEFAULT_UPDATED);
 
         // Validate the Subject in Elasticsearch
         Subject subjectEs = subjectSearchRepository.findOne(testSubject.getId());
@@ -207,25 +195,6 @@ public class SubjectResourceIntTest {
 
     @Test
     @Transactional
-    public void checkCreatedIsRequired() throws Exception {
-        int databaseSizeBeforeTest = subjectRepository.findAll().size();
-        // set the field null
-        subject.setCreated(null);
-
-        // Create the Subject, which fails.
-        SubjectDTO subjectDTO = subjectMapper.toDto(subject);
-
-        restSubjectMockMvc.perform(post("/api/subjects")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(subjectDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Subject> subjectList = subjectRepository.findAll();
-        assertThat(subjectList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllSubjects() throws Exception {
         // Initialize the database
         subjectRepository.saveAndFlush(subject);
@@ -237,9 +206,7 @@ public class SubjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(subject.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
-            .andExpect(jsonPath("$.[*].updated").value(hasItem(DEFAULT_UPDATED.toString())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
     @Test
@@ -255,9 +222,7 @@ public class SubjectResourceIntTest {
             .andExpect(jsonPath("$.id").value(subject.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
-            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
-            .andExpect(jsonPath("$.created").value(DEFAULT_CREATED.toString()))
-            .andExpect(jsonPath("$.updated").value(DEFAULT_UPDATED.toString()));
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
     }
 
     @Test
@@ -281,9 +246,7 @@ public class SubjectResourceIntTest {
         updatedSubject
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION)
-            .active(UPDATED_ACTIVE)
-            .created(UPDATED_CREATED)
-            .updated(UPDATED_UPDATED);
+            .active(UPDATED_ACTIVE);
         SubjectDTO subjectDTO = subjectMapper.toDto(updatedSubject);
 
         restSubjectMockMvc.perform(put("/api/subjects")
@@ -298,8 +261,6 @@ public class SubjectResourceIntTest {
         assertThat(testSubject.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testSubject.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testSubject.isActive()).isEqualTo(UPDATED_ACTIVE);
-        assertThat(testSubject.getCreated()).isEqualTo(UPDATED_CREATED);
-        assertThat(testSubject.getUpdated()).isEqualTo(UPDATED_UPDATED);
 
         // Validate the Subject in Elasticsearch
         Subject subjectEs = subjectSearchRepository.findOne(testSubject.getId());
@@ -361,9 +322,7 @@ public class SubjectResourceIntTest {
             .andExpect(jsonPath("$.[*].id").value(hasItem(subject.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
-            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
-            .andExpect(jsonPath("$.[*].created").value(hasItem(DEFAULT_CREATED.toString())))
-            .andExpect(jsonPath("$.[*].updated").value(hasItem(DEFAULT_UPDATED.toString())));
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
     }
 
     @Test

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Education e2e test', () => {
     let educationComponentsPage: EducationComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -45,7 +46,7 @@ describe('Education e2e test', () => {
         educationDialogPage.profileSelectLastOption();
         educationDialogPage.save();
         expect(educationDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -79,51 +80,51 @@ export class EducationDialogPage {
         return this.modalTitle.getText();
     }
 
-    setCourseInput = function(course) {
+    setCourseInput = function (course) {
         this.courseInput.sendKeys(course);
     }
 
-    getCourseInput = function() {
+    getCourseInput = function () {
         return this.courseInput.getAttribute('value');
     }
 
-    setUniversityInput = function(university) {
+    setUniversityInput = function (university) {
         this.universityInput.sendKeys(university);
     }
 
-    getUniversityInput = function() {
+    getUniversityInput = function () {
         return this.universityInput.getAttribute('value');
     }
 
-    setStartInput = function(start) {
+    setStartInput = function (start) {
         this.startInput.sendKeys(start);
     }
 
-    getStartInput = function() {
+    getStartInput = function () {
         return this.startInput.getAttribute('value');
     }
 
-    setEndInput = function(end) {
+    setEndInput = function (end) {
         this.endInput.sendKeys(end);
     }
 
-    getEndInput = function() {
+    getEndInput = function () {
         return this.endInput.getAttribute('value');
     }
 
-    profileSelectLastOption = function() {
+    profileSelectLastOption = function () {
         this.profileSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSelectOption = function(option) {
+    profileSelectOption = function (option) {
         this.profileSelect.sendKeys(option);
     }
 
-    getProfileSelect = function() {
+    getProfileSelect = function () {
         return this.profileSelect;
     }
 
-    getProfileSelectedOption = function() {
+    getProfileSelectedOption = function () {
         return this.profileSelect.element(by.css('option:checked')).getText();
     }
 

@@ -31,8 +31,10 @@
             <tr>
             <th><span>ID</span></th>
             <th><span>Day Of Week</span></th>
-            <th><span>Availabile</span></th>
-            <th><span>Time Zone</span></th>
+            <th><span>Booked</span></th>
+            <th><span>Active</span></th>
+            <th><span>Effective Date</span></th>
+            <th><span>Deactivated Date</span></th>
             <th><span>Profile</span></th>
             <th></th>
             </tr>
@@ -41,8 +43,10 @@
             <tr *ngFor="let availability of availabilities ;trackBy: trackId">
                 <td><a [routerLink]="['../availability', availability.id ]">{{availability.id}}</a></td>
                 <td>{{availability.dayOfWeek}}</td>
-                <td>{{availability.availabile}}</td>
-                <td>{{availability.timeZone}}</td>
+                <td>{{availability.booked}}</td>
+                <td>{{availability.active}}</td>
+                <td>{{availability.effectiveDate | date:'medium'}}</td>
+                <td>{{availability.deactivatedDate | date:'medium'}}</td>
                 <td>
                     <div *ngIf="availability.profileId">
                         <a [routerLink]="['../profile', availability.profileId  ]" >{{availability.profileId}}</a>

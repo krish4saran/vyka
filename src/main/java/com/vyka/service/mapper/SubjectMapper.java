@@ -13,7 +13,8 @@ public interface SubjectMapper extends EntityMapper<SubjectDTO, Subject> {
 
     
 
-    
+    @Mapping(target = "subjects", ignore = true)
+    Subject toEntity(SubjectDTO subjectDTO);
 
     default Subject fromId(Long id) {
         if (id == null) {

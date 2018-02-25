@@ -2,9 +2,11 @@ package com.vyka.service.dto;
 
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.Objects;
+import com.vyka.domain.enumeration.LevelValue;
 
 /**
  * A DTO for the ProfileSubject entity.
@@ -12,6 +14,16 @@ import java.util.Objects;
 public class ProfileSubjectDTO implements Serializable {
 
     private Long id;
+
+    private LevelValue level;
+
+    private BigDecimal rate;
+
+    private Boolean sponsored;
+
+    private Boolean active;
+
+    private BigDecimal totalRating;
 
     private Long profileId;
 
@@ -23,6 +35,46 @@ public class ProfileSubjectDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public LevelValue getLevel() {
+        return level;
+    }
+
+    public void setLevel(LevelValue level) {
+        this.level = level;
+    }
+
+    public BigDecimal getRate() {
+        return rate;
+    }
+
+    public void setRate(BigDecimal rate) {
+        this.rate = rate;
+    }
+
+    public Boolean isSponsored() {
+        return sponsored;
+    }
+
+    public void setSponsored(Boolean sponsored) {
+        this.sponsored = sponsored;
+    }
+
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public BigDecimal getTotalRating() {
+        return totalRating;
+    }
+
+    public void setTotalRating(BigDecimal totalRating) {
+        this.totalRating = totalRating;
     }
 
     public Long getProfileId() {
@@ -66,6 +118,11 @@ public class ProfileSubjectDTO implements Serializable {
     public String toString() {
         return "ProfileSubjectDTO{" +
             "id=" + getId() +
+            ", level='" + getLevel() + "'" +
+            ", rate='" + getRate() + "'" +
+            ", sponsored='" + isSponsored() + "'" +
+            ", active='" + isActive() + "'" +
+            ", totalRating='" + getTotalRating() + "'" +
             "}";
     }
 }

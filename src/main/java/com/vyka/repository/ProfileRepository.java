@@ -19,4 +19,5 @@ public interface ProfileRepository extends JpaRepository<Profile, Long> {
     @Query("select profile from Profile profile left join fetch profile.languages where profile.id =:id")
     Profile findOneWithEagerRelationships(@Param("id") Long id);
 
+    Profile findProfileByUserId(@Param("userId") Long userId);
 }

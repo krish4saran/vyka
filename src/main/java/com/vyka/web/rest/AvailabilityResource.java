@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -47,7 +46,7 @@ public class AvailabilityResource {
      */
     @PostMapping("/availabilities")
     @Timed
-    public ResponseEntity<AvailabilityDTO> createAvailability(@Valid @RequestBody AvailabilityDTO availabilityDTO) throws URISyntaxException {
+    public ResponseEntity<AvailabilityDTO> createAvailability(@RequestBody AvailabilityDTO availabilityDTO) throws URISyntaxException {
         log.debug("REST request to save Availability : {}", availabilityDTO);
         if (availabilityDTO.getId() != null) {
             throw new BadRequestAlertException("A new availability cannot already have an ID", ENTITY_NAME, "idexists");
@@ -69,7 +68,7 @@ public class AvailabilityResource {
      */
     @PutMapping("/availabilities")
     @Timed
-    public ResponseEntity<AvailabilityDTO> updateAvailability(@Valid @RequestBody AvailabilityDTO availabilityDTO) throws URISyntaxException {
+    public ResponseEntity<AvailabilityDTO> updateAvailability(@RequestBody AvailabilityDTO availabilityDTO) throws URISyntaxException {
         log.debug("REST request to update Availability : {}", availabilityDTO);
         if (availabilityDTO.getId() == null) {
             return createAvailability(availabilityDTO);

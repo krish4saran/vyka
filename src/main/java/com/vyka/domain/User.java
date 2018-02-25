@@ -85,6 +85,10 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @Column(name = "reset_date")
     private Instant resetDate = null;
+    
+    @NotNull
+    @Column(nullable = false)
+    private boolean profileType = false;
 
     @JsonIgnore
     @ManyToMany
@@ -201,7 +205,16 @@ public class User extends AbstractAuditingEntity implements Serializable {
         this.authorities = authorities;
     }
 
-    @Override
+    
+    public boolean isProfileType() {
+		return profileType;
+	}
+
+	public void setProfileType(boolean profileType) {
+		this.profileType = profileType;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;
@@ -230,6 +243,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
             ", activated='" + activated + '\'' +
             ", langKey='" + langKey + '\'' +
             ", activationKey='" + activationKey + '\'' +
+            ", profileType='" + profileType + '\'' +
             "}";
     }
 }

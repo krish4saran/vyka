@@ -1,7 +1,6 @@
 import { Injectable, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { DatePipe } from '@angular/common';
 import { Profile } from './profile.model';
 import { ProfileService } from './profile.service';
 
@@ -10,7 +9,6 @@ export class ProfilePopupService {
     private ngbModalRef: NgbModalRef;
 
     constructor(
-        private datePipe: DatePipe,
         private modalService: NgbModal,
         private router: Router,
         private profileService: ProfileService
@@ -28,10 +26,6 @@ export class ProfilePopupService {
 
             if (id) {
                 this.profileService.find(id).subscribe((profile) => {
-                    profile.created = this.datePipe
-                        .transform(profile.created, 'yyyy-MM-ddTHH:mm:ss');
-                    profile.updated = this.datePipe
-                        .transform(profile.updated, 'yyyy-MM-ddTHH:mm:ss');
                     this.ngbModalRef = this.profileModalRef(component, profile);
                     resolve(this.ngbModalRef);
                 });

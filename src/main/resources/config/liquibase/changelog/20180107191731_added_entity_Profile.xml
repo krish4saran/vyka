@@ -27,7 +27,7 @@
             </column>
 
             <column name="description" type="clob">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
 
             <column name="active" type="bit">
@@ -59,20 +59,24 @@
                 <constraints nullable="true" />
             </column>
 
-            <column name="created" type="timestamp">
-                <constraints nullable="false" />
-            </column>
-
-            <column name="updated" type="timestamp">
+            <column name="city" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="location_id" type="bigint">
-                <constraints unique="true" nullable="true" />
+
+            <column name="state" type="varchar(2)">
+                <constraints nullable="true" />
             </column>
+
+            <column name="country" type="varchar(3)">
+                <constraints nullable="true" />
+            </column>
+
+            <column name="time_zone" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
-        <dropDefaultValue tableName="profile" columnName="created" columnDataType="datetime"/>
-        <dropDefaultValue tableName="profile" columnName="updated" columnDataType="datetime"/>
         
         <createTable tableName="profile_language">
             <column name="languages_id" type="bigint">

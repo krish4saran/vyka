@@ -3,6 +3,7 @@ import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 import { Register } from './register.service';
 import { LoginModalService, EMAIL_ALREADY_USED_TYPE, LOGIN_ALREADY_USED_TYPE } from '../../shared';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'jhi-register',
@@ -18,18 +19,20 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     registerAccount: any;
     success: boolean;
     modalRef: NgbModalRef;
-
+    from: String;
     constructor(
         private loginModalService: LoginModalService,
         private registerService: Register,
         private elementRef: ElementRef,
-        private renderer: Renderer
+        private renderer: Renderer,
+        private router: ActivatedRoute
     ) {
     }
 
     ngOnInit() {
         this.success = false;
         this.registerAccount = {};
+        this.from = '';
     }
 
     ngAfterViewInit() {
@@ -37,9 +40,17 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     }
 
     register() {
+        this.router.queryParams.subscribe((params) => {
+            this.from = params['from'];
+        });
         if (this.registerAccount.password !== this.confirmPassword) {
             this.doNotMatch = 'ERROR';
         } else {
+            if ( this.from === 'register-profile') {
+                this.registerAccount.profileType = true;
+            }else {
+                this.registerAccount.profileType = false;
+            }
             this.doNotMatch = null;
             this.error = null;
             this.errorUserExists = null;

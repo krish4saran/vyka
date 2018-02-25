@@ -1,16 +1,37 @@
-import { Routes } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { SubjectComponent } from './subject.component';
 import { SubjectDetailComponent } from './subject-detail.component';
 import { SubjectPopupComponent } from './subject-dialog.component';
 import { SubjectDeletePopupComponent } from './subject-delete-dialog.component';
 
+@Injectable()
+export class SubjectResolvePagingParams implements Resolve<any> {
+
+    constructor(private paginationUtil: JhiPaginationUtil) {}
+
+    resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+        const page = route.queryParams['page'] ? route.queryParams['page'] : '1';
+        const sort = route.queryParams['sort'] ? route.queryParams['sort'] : 'id,asc';
+        return {
+            page: this.paginationUtil.parsePage(page),
+            predicate: this.paginationUtil.parsePredicate(sort),
+            ascending: this.paginationUtil.parseAscending(sort)
+      };
+    }
+}
+
 export const subjectRoute: Routes = [
     {
         path: 'subject',
         component: SubjectComponent,
+        resolve: {
+            'pagingParams': SubjectResolvePagingParams
+        },
         data: {
             authorities: ['ROLE_USER'],
             pageTitle: 'Subjects'

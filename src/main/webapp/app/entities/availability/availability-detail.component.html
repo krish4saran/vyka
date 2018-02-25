@@ -8,13 +8,21 @@
         <dd>
             <span>{{availability.dayOfWeek}}</span>
         </dd>
-        <dt><span>Availabile</span></dt>
+        <dt><span>Booked</span></dt>
         <dd>
-            <span>{{availability.availabile}}</span>
+            <span>{{availability.booked}}</span>
         </dd>
-        <dt><span>Time Zone</span></dt>
+        <dt><span>Active</span></dt>
         <dd>
-            <span>{{availability.timeZone}}</span>
+            <span>{{availability.active}}</span>
+        </dd>
+        <dt><span>Effective Date</span></dt>
+        <dd>
+            <span>{{availability.effectiveDate | date:'medium'}}</span>
+        </dd>
+        <dt><span>Deactivated Date</span></dt>
+        <dd>
+            <span>{{availability.deactivatedDate | date:'medium'}}</span>
         </dd>
         <dt><span>Profile</span></dt>
         <dd>

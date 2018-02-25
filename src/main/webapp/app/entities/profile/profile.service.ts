@@ -3,8 +3,6 @@ import { Http, Response } from '@angular/http';
 import { Observable } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
-import { JhiDateUtils } from 'ng-jhipster';
-
 import { Profile } from './profile.model';
 import { ResponseWrapper, createRequestOption } from '../../shared';
 
@@ -13,8 +11,9 @@ export class ProfileService {
 
     private resourceUrl = SERVER_API_URL + 'api/profiles';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/profiles';
+    private resourceUsersUrl = SERVER_API_URL + 'api/profiles/users';
 
-    constructor(private http: Http, private dateUtils: JhiDateUtils) { }
+    constructor(private http: Http) { }
 
     create(profile: Profile): Observable<Profile> {
         const copy = this.convert(profile);
@@ -34,6 +33,13 @@ export class ProfileService {
 
     find(id: number): Observable<Profile> {
         return this.http.get(`${this.resourceUrl}/${id}`).map((res: Response) => {
+            const jsonResponse = res.json();
+            return this.convertItemFromServer(jsonResponse);
+        });
+    }
+
+    findByUserId(id: number): Observable<Profile> {
+        return this.http.get(`${this.resourceUsersUrl}/${id}`).map((res: Response) => {
             const jsonResponse = res.json();
             return this.convertItemFromServer(jsonResponse);
         });
@@ -69,10 +75,6 @@ export class ProfileService {
      */
     private convertItemFromServer(json: any): Profile {
         const entity: Profile = Object.assign(new Profile(), json);
-        entity.created = this.dateUtils
-            .convertDateTimeFromServer(json.created);
-        entity.updated = this.dateUtils
-            .convertDateTimeFromServer(json.updated);
         return entity;
     }
 
@@ -81,10 +83,6 @@ export class ProfileService {
      */
     private convert(profile: Profile): Profile {
         const copy: Profile = Object.assign({}, profile);
-
-        copy.created = this.dateUtils.toDate(profile.created);
-
-        copy.updated = this.dateUtils.toDate(profile.updated);
         return copy;
     }
 }

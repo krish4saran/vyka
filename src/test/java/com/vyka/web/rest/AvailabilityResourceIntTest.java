@@ -11,7 +11,6 @@ import com.vyka.service.mapper.AvailabilityMapper;
 import com.vyka.web.rest.errors.ExceptionTranslator;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
@@ -26,6 +25,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static com.vyka.web.rest.TestUtil.createFormattingConversionService;
@@ -35,7 +36,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.vyka.domain.enumeration.DayOfWeek;
-import com.vyka.domain.enumeration.TimeZones;
 /**
  * Test class for the AvailabilityResource REST controller.
  *
@@ -43,17 +43,22 @@ import com.vyka.domain.enumeration.TimeZones;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = VykaApp.class)
-@Ignore
 public class AvailabilityResourceIntTest {
 
     private static final DayOfWeek DEFAULT_DAY_OF_WEEK = DayOfWeek.SUN;
     private static final DayOfWeek UPDATED_DAY_OF_WEEK = DayOfWeek.MON;
 
-    private static final Boolean DEFAULT_AVAILABILE = false;
-    private static final Boolean UPDATED_AVAILABILE = true;
+    private static final Boolean DEFAULT_BOOKED = false;
+    private static final Boolean UPDATED_BOOKED = true;
 
-    private static final TimeZones DEFAULT_TIME_ZONE = TimeZones.IST;
-    private static final TimeZones UPDATED_TIME_ZONE = TimeZones.CST;
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
+
+    private static final Instant DEFAULT_EFFECTIVE_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_EFFECTIVE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_DEACTIVATED_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DEACTIVATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     @Autowired
     private AvailabilityRepository availabilityRepository;
@@ -103,8 +108,10 @@ public class AvailabilityResourceIntTest {
     public static Availability createEntity(EntityManager em) {
         Availability availability = new Availability()
             .dayOfWeek(DEFAULT_DAY_OF_WEEK)
-            .availabile(DEFAULT_AVAILABILE)
-            .timeZone(DEFAULT_TIME_ZONE);
+            .booked(DEFAULT_BOOKED)
+            .active(DEFAULT_ACTIVE)
+            .effectiveDate(DEFAULT_EFFECTIVE_DATE)
+            .deactivatedDate(DEFAULT_DEACTIVATED_DATE);
         return availability;
     }
 
@@ -131,8 +138,10 @@ public class AvailabilityResourceIntTest {
         assertThat(availabilityList).hasSize(databaseSizeBeforeCreate + 1);
         Availability testAvailability = availabilityList.get(availabilityList.size() - 1);
         assertThat(testAvailability.getDayOfWeek()).isEqualTo(DEFAULT_DAY_OF_WEEK);
-        assertThat(testAvailability.isAvailabile()).isEqualTo(DEFAULT_AVAILABILE);
-        assertThat(testAvailability.getTimeZone()).isEqualTo(DEFAULT_TIME_ZONE);
+        assertThat(testAvailability.isBooked()).isEqualTo(DEFAULT_BOOKED);
+        assertThat(testAvailability.isActive()).isEqualTo(DEFAULT_ACTIVE);
+        assertThat(testAvailability.getEffectiveDate()).isEqualTo(DEFAULT_EFFECTIVE_DATE);
+        assertThat(testAvailability.getDeactivatedDate()).isEqualTo(DEFAULT_DEACTIVATED_DATE);
 
         // Validate the Availability in Elasticsearch
         Availability availabilityEs = availabilitySearchRepository.findOne(testAvailability.getId());
@@ -161,44 +170,6 @@ public class AvailabilityResourceIntTest {
 
     @Test
     @Transactional
-    public void checkDayOfWeekIsRequired() throws Exception {
-        int databaseSizeBeforeTest = availabilityRepository.findAll().size();
-        // set the field null
-        availability.setDayOfWeek(null);
-
-        // Create the Availability, which fails.
-        AvailabilityDTO availabilityDTO = availabilityMapper.toDto(availability);
-
-        restAvailabilityMockMvc.perform(post("/api/availabilities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(availabilityDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Availability> availabilityList = availabilityRepository.findAll();
-        assertThat(availabilityList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkTimeZoneIsRequired() throws Exception {
-        int databaseSizeBeforeTest = availabilityRepository.findAll().size();
-        // set the field null
-        availability.setTimeZone(null);
-
-        // Create the Availability, which fails.
-        AvailabilityDTO availabilityDTO = availabilityMapper.toDto(availability);
-
-        restAvailabilityMockMvc.perform(post("/api/availabilities")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
-            .content(TestUtil.convertObjectToJsonBytes(availabilityDTO)))
-            .andExpect(status().isBadRequest());
-
-        List<Availability> availabilityList = availabilityRepository.findAll();
-        assertThat(availabilityList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAvailabilities() throws Exception {
         // Initialize the database
         availabilityRepository.saveAndFlush(availability);
@@ -209,8 +180,10 @@ public class AvailabilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(availability.getId().intValue())))
             .andExpect(jsonPath("$.[*].dayOfWeek").value(hasItem(DEFAULT_DAY_OF_WEEK.toString())))
-            .andExpect(jsonPath("$.[*].availabile").value(hasItem(DEFAULT_AVAILABILE.booleanValue())))
-            .andExpect(jsonPath("$.[*].timeZone").value(hasItem(DEFAULT_TIME_ZONE.toString())));
+            .andExpect(jsonPath("$.[*].booked").value(hasItem(DEFAULT_BOOKED.booleanValue())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].deactivatedDate").value(hasItem(DEFAULT_DEACTIVATED_DATE.toString())));
     }
 
     @Test
@@ -225,8 +198,10 @@ public class AvailabilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(availability.getId().intValue()))
             .andExpect(jsonPath("$.dayOfWeek").value(DEFAULT_DAY_OF_WEEK.toString()))
-            .andExpect(jsonPath("$.availabile").value(DEFAULT_AVAILABILE.booleanValue()))
-            .andExpect(jsonPath("$.timeZone").value(DEFAULT_TIME_ZONE.toString()));
+            .andExpect(jsonPath("$.booked").value(DEFAULT_BOOKED.booleanValue()))
+            .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()))
+            .andExpect(jsonPath("$.effectiveDate").value(DEFAULT_EFFECTIVE_DATE.toString()))
+            .andExpect(jsonPath("$.deactivatedDate").value(DEFAULT_DEACTIVATED_DATE.toString()));
     }
 
     @Test
@@ -249,8 +224,10 @@ public class AvailabilityResourceIntTest {
         Availability updatedAvailability = availabilityRepository.findOne(availability.getId());
         updatedAvailability
             .dayOfWeek(UPDATED_DAY_OF_WEEK)
-            .availabile(UPDATED_AVAILABILE)
-            .timeZone(UPDATED_TIME_ZONE);
+            .booked(UPDATED_BOOKED)
+            .active(UPDATED_ACTIVE)
+            .effectiveDate(UPDATED_EFFECTIVE_DATE)
+            .deactivatedDate(UPDATED_DEACTIVATED_DATE);
         AvailabilityDTO availabilityDTO = availabilityMapper.toDto(updatedAvailability);
 
         restAvailabilityMockMvc.perform(put("/api/availabilities")
@@ -263,8 +240,10 @@ public class AvailabilityResourceIntTest {
         assertThat(availabilityList).hasSize(databaseSizeBeforeUpdate);
         Availability testAvailability = availabilityList.get(availabilityList.size() - 1);
         assertThat(testAvailability.getDayOfWeek()).isEqualTo(UPDATED_DAY_OF_WEEK);
-        assertThat(testAvailability.isAvailabile()).isEqualTo(UPDATED_AVAILABILE);
-        assertThat(testAvailability.getTimeZone()).isEqualTo(UPDATED_TIME_ZONE);
+        assertThat(testAvailability.isBooked()).isEqualTo(UPDATED_BOOKED);
+        assertThat(testAvailability.isActive()).isEqualTo(UPDATED_ACTIVE);
+        assertThat(testAvailability.getEffectiveDate()).isEqualTo(UPDATED_EFFECTIVE_DATE);
+        assertThat(testAvailability.getDeactivatedDate()).isEqualTo(UPDATED_DEACTIVATED_DATE);
 
         // Validate the Availability in Elasticsearch
         Availability availabilityEs = availabilitySearchRepository.findOne(testAvailability.getId());
@@ -325,8 +304,10 @@ public class AvailabilityResourceIntTest {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(availability.getId().intValue())))
             .andExpect(jsonPath("$.[*].dayOfWeek").value(hasItem(DEFAULT_DAY_OF_WEEK.toString())))
-            .andExpect(jsonPath("$.[*].availabile").value(hasItem(DEFAULT_AVAILABILE.booleanValue())))
-            .andExpect(jsonPath("$.[*].timeZone").value(hasItem(DEFAULT_TIME_ZONE.toString())));
+            .andExpect(jsonPath("$.[*].booked").value(hasItem(DEFAULT_BOOKED.booleanValue())))
+            .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())))
+            .andExpect(jsonPath("$.[*].effectiveDate").value(hasItem(DEFAULT_EFFECTIVE_DATE.toString())))
+            .andExpect(jsonPath("$.[*].deactivatedDate").value(hasItem(DEFAULT_DEACTIVATED_DATE.toString())));
     }
 
     @Test

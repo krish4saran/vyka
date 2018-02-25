@@ -4,10 +4,16 @@ import com.codahale.metrics.annotation.Timed;
 import com.vyka.service.SubjectService;
 import com.vyka.web.rest.errors.BadRequestAlertException;
 import com.vyka.web.rest.util.HeaderUtil;
+import com.vyka.web.rest.util.PaginationUtil;
 import com.vyka.service.dto.SubjectDTO;
+import io.swagger.annotations.ApiParam;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -83,14 +89,17 @@ public class SubjectResource {
     /**
      * GET  /subjects : get all the subjects.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of subjects in body
      */
     @GetMapping("/subjects")
     @Timed
-    public List<SubjectDTO> getAllSubjects() {
-        log.debug("REST request to get all Subjects");
-        return subjectService.findAll();
-        }
+    public ResponseEntity<List<SubjectDTO>> getAllSubjects(@ApiParam Pageable pageable) {
+        log.debug("REST request to get a page of Subjects");
+        Page<SubjectDTO> page = subjectService.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/subjects");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+    }
 
     /**
      * GET  /subjects/:id : get the "id" subject.
@@ -125,13 +134,16 @@ public class SubjectResource {
      * to the query.
      *
      * @param query the query of the subject search
+     * @param pageable the pagination information
      * @return the result of the search
      */
     @GetMapping("/_search/subjects")
     @Timed
-    public List<SubjectDTO> searchSubjects(@RequestParam String query) {
-        log.debug("REST request to search Subjects for query {}", query);
-        return subjectService.search(query);
+    public ResponseEntity<List<SubjectDTO>> searchSubjects(@RequestParam String query, @ApiParam Pageable pageable) {
+        log.debug("REST request to search for a page of Subjects for query {}", query);
+        Page<SubjectDTO> page = subjectService.search(query, pageable);
+        HttpHeaders headers = PaginationUtil.generateSearchPaginationHttpHeaders(query, page, "/api/_search/subjects");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
 }

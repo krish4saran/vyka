@@ -21,7 +21,7 @@
             <li *ngSwitchCase="false" class="nav-item" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
                 <span>
                     <button type="button" 
-                    routerLink="register"
+                    routerLink="create-profile"
                     class="btn btn-outline-primary">Become Teacher</button>
                 </span>
             </li>
@@ -166,6 +166,12 @@
                         <a class="dropdown-item" routerLink="paypal-payment" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
                             <span>Paypal Payment</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="subject-level" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <i class="fa fa-fw fa-asterisk" aria-hidden="true"></i>
+                            <span>Subject Level</span>
                         </a>
                     </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

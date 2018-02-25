@@ -1,5 +1,6 @@
 package com.vyka.domain;
 
+import io.swagger.annotations.ApiModel;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -10,8 +11,14 @@ import java.io.Serializable;
 import java.util.Objects;
 
 /**
- * A Education.
+ * entity ClassLength{
+ * classLength Integer required min(30) max(60),
+ * active Boolean required,
+ * created Instant required,
+ * updated Instant
+ * }
  */
+@ApiModel(description = "entity ClassLength{ classLength Integer required min(30) max(60), active Boolean required, created Instant required, updated Instant }")
 @Entity
 @Table(name = "education")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)

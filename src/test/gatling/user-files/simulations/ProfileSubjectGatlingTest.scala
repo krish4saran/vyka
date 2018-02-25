@@ -68,7 +68,7 @@ class ProfileSubjectGatlingTest extends Simulation {
             .exec(http("Create new profileSubject")
             .post("/api/profile-subjects")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null}""")).asJSON
+            .body(StringBody("""{"id":null, "level":null, "rate":"0", "sponsored":null, "active":null, "totalRating":"0"}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_profileSubject_url"))).exitHereIfFailed
             .pause(10)

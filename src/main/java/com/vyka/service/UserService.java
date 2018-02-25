@@ -118,6 +118,7 @@ public class UserService {
         newUser.setActivationKey(RandomUtil.generateActivationKey());
         authorities.add(authority);
         newUser.setAuthorities(authorities);
+        newUser.setProfileType(userDTO.isProfileType());
         userRepository.save(newUser);
         userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
