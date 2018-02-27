@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Location e2e test', () => {
     let locationComponentsPage: LocationComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -42,7 +43,7 @@ describe('Location e2e test', () => {
         expect(locationDialogPage.getCountryInput()).toMatch('country');
         locationDialogPage.save();
         expect(locationDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -74,27 +75,27 @@ export class LocationDialogPage {
         return this.modalTitle.getText();
     }
 
-    setCityInput = function(city) {
+    setCityInput = function (city) {
         this.cityInput.sendKeys(city);
     }
 
-    getCityInput = function() {
+    getCityInput = function () {
         return this.cityInput.getAttribute('value');
     }
 
-    setStateInput = function(state) {
+    setStateInput = function (state) {
         this.stateInput.sendKeys(state);
     }
 
-    getStateInput = function() {
+    getStateInput = function () {
         return this.stateInput.getAttribute('value');
     }
 
-    setCountryInput = function(country) {
+    setCountryInput = function (country) {
         this.countryInput.sendKeys(country);
     }
 
-    getCountryInput = function() {
+    getCountryInput = function () {
         return this.countryInput.getAttribute('value');
     }
 

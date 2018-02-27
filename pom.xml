@@ -28,6 +28,7 @@
         <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
         <gatling.version>2.2.5</gatling.version>
         <gatling-maven-plugin.version>2.2.4</gatling-maven-plugin.version>
+        <hazelcast-hibernate52.version>1.2</hazelcast-hibernate52.version>
         <hibernate.version>5.2.10.Final</hibernate.version>
         <hikaricp.version>2.6.0</hikaricp.version>
         <jacoco-maven-plugin.version>0.7.9</jacoco-maven-plugin.version>
@@ -132,11 +133,6 @@
         </dependency>
         <dependency>
             <groupId>io.dropwizard.metrics</groupId>
-            <artifactId>metrics-jcache</artifactId>
-            <version>${dropwizard-metrics.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.dropwizard.metrics</groupId>
             <artifactId>metrics-jvm</artifactId>
             <version>${dropwizard-metrics.version}</version>
         </dependency>
@@ -173,6 +169,19 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-hibernate52</artifactId>
+            <version>${hazelcast-hibernate52.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-spring</artifactId>
         </dependency>
         <dependency>
             <groupId>org.awaitility</groupId>
@@ -250,15 +259,6 @@
             <groupId>org.assertj</groupId>
             <artifactId>assertj-core</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.ehcache</groupId>
-            <artifactId>ehcache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-jcache</artifactId>
-            <version>${hibernate.version}</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
@@ -670,7 +670,7 @@
                     <url>jdbc:mysql://localhost:3306/vyka</url>
                     <defaultSchemaName>vyka</defaultSchemaName>
                     <username>root</username>
-                    <password>root</password>
+                    <password></password>
                     <referenceUrl>hibernate:spring:com.vyka.domain?dialect=org.hibernate.dialect.MySQL5InnoDBDialect&amp;hibernate.physical_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy&amp;hibernate.implicit_naming_strategy=org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy</referenceUrl>
                     <verbose>true</verbose>
                     <logging>debug</logging>
@@ -705,9 +705,9 @@
                     <executable>true</executable>
                     <fork>true</fork>
                     <!--
-                    Enable the line below to have remote debugging of your application on port 5005-->
+                    Enable the line below to have remote debugging of your application on port 5005
                     <jvmArguments>-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005</jvmArguments>
-                    
+                    -->
                 </configuration>
             </plugin>
             <plugin>

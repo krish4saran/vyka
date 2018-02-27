@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Award e2e test', () => {
     let awardComponentsPage: AwardComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -43,7 +44,7 @@ describe('Award e2e test', () => {
         awardDialogPage.profileSelectLastOption();
         awardDialogPage.save();
         expect(awardDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -76,43 +77,43 @@ export class AwardDialogPage {
         return this.modalTitle.getText();
     }
 
-    setNameInput = function(name) {
+    setNameInput = function (name) {
         this.nameInput.sendKeys(name);
     }
 
-    getNameInput = function() {
+    getNameInput = function () {
         return this.nameInput.getAttribute('value');
     }
 
-    setReceivedDateInput = function(receivedDate) {
+    setReceivedDateInput = function (receivedDate) {
         this.receivedDateInput.sendKeys(receivedDate);
     }
 
-    getReceivedDateInput = function() {
+    getReceivedDateInput = function () {
         return this.receivedDateInput.getAttribute('value');
     }
 
-    setInstituteInput = function(institute) {
+    setInstituteInput = function (institute) {
         this.instituteInput.sendKeys(institute);
     }
 
-    getInstituteInput = function() {
+    getInstituteInput = function () {
         return this.instituteInput.getAttribute('value');
     }
 
-    profileSelectLastOption = function() {
+    profileSelectLastOption = function () {
         this.profileSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSelectOption = function(option) {
+    profileSelectOption = function (option) {
         this.profileSelect.sendKeys(option);
     }
 
-    getProfileSelect = function() {
+    getProfileSelect = function () {
         return this.profileSelect;
     }
 
-    getProfileSelectedOption = function() {
+    getProfileSelectedOption = function () {
         return this.profileSelect.element(by.css('option:checked')).getText();
     }
 

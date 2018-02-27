@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Level e2e test', () => {
     let levelComponentsPage: LevelComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -38,7 +39,7 @@ describe('Level e2e test', () => {
         levelDialogPage.profileSubjectSelectLastOption();
         levelDialogPage.save();
         expect(levelDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -69,30 +70,30 @@ export class LevelDialogPage {
         return this.modalTitle.getText();
     }
 
-    setLevelSelect = function(level) {
+    setLevelSelect = function (level) {
         this.levelSelect.sendKeys(level);
     }
 
-    getLevelSelect = function() {
+    getLevelSelect = function () {
         return this.levelSelect.element(by.css('option:checked')).getText();
     }
 
-    levelSelectLastOption = function() {
+    levelSelectLastOption = function () {
         this.levelSelect.all(by.tagName('option')).last().click();
     }
-    profileSubjectSelectLastOption = function() {
+    profileSubjectSelectLastOption = function () {
         this.profileSubjectSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSubjectSelectOption = function(option) {
+    profileSubjectSelectOption = function (option) {
         this.profileSubjectSelect.sendKeys(option);
     }
 
-    getProfileSubjectSelect = function() {
+    getProfileSubjectSelect = function () {
         return this.profileSubjectSelect;
     }
 
-    getProfileSubjectSelectedOption = function() {
+    getProfileSubjectSelectedOption = function () {
         return this.profileSubjectSelect.element(by.css('option:checked')).getText();
     }
 

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('ClassLength e2e test', () => {
     let classLengthComponentsPage: ClassLengthComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -36,7 +37,7 @@ describe('ClassLength e2e test', () => {
         classLengthComponentsPage.clickOnCreateButton();
         classLengthDialogPage.setClassLengthInput('5');
         expect(classLengthDialogPage.getClassLengthInput()).toMatch('5');
-        classLengthDialogPage.getActiveInput().isSelected().then(function(selected) {
+        classLengthDialogPage.getActiveInput().isSelected().then(function (selected) {
             if (selected) {
                 classLengthDialogPage.getActiveInput().click();
                 expect(classLengthDialogPage.getActiveInput().isSelected()).toBeFalsy();
@@ -51,7 +52,7 @@ describe('ClassLength e2e test', () => {
         expect(classLengthDialogPage.getUpdatedInput()).toMatch('2001-12-31T02:30');
         classLengthDialogPage.save();
         expect(classLengthDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -84,30 +85,30 @@ export class ClassLengthDialogPage {
         return this.modalTitle.getText();
     }
 
-    setClassLengthInput = function(classLength) {
+    setClassLengthInput = function (classLength) {
         this.classLengthInput.sendKeys(classLength);
     }
 
-    getClassLengthInput = function() {
+    getClassLengthInput = function () {
         return this.classLengthInput.getAttribute('value');
     }
 
-    getActiveInput = function() {
+    getActiveInput = function () {
         return this.activeInput;
     }
-    setCreatedInput = function(created) {
+    setCreatedInput = function (created) {
         this.createdInput.sendKeys(created);
     }
 
-    getCreatedInput = function() {
+    getCreatedInput = function () {
         return this.createdInput.getAttribute('value');
     }
 
-    setUpdatedInput = function(updated) {
+    setUpdatedInput = function (updated) {
         this.updatedInput.sendKeys(updated);
     }
 
-    getUpdatedInput = function() {
+    getUpdatedInput = function () {
         return this.updatedInput.getAttribute('value');
     }
 

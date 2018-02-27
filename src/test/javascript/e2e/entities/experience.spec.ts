@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Experience e2e test', () => {
     let experienceComponentsPage: ExperienceComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -46,7 +47,7 @@ describe('Experience e2e test', () => {
         experienceDialogPage.profileSelectLastOption();
         experienceDialogPage.save();
         expect(experienceDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -81,59 +82,59 @@ export class ExperienceDialogPage {
         return this.modalTitle.getText();
     }
 
-    setTitleInput = function(title) {
+    setTitleInput = function (title) {
         this.titleInput.sendKeys(title);
     }
 
-    getTitleInput = function() {
+    getTitleInput = function () {
         return this.titleInput.getAttribute('value');
     }
 
-    setCompanyInput = function(company) {
+    setCompanyInput = function (company) {
         this.companyInput.sendKeys(company);
     }
 
-    getCompanyInput = function() {
+    getCompanyInput = function () {
         return this.companyInput.getAttribute('value');
     }
 
-    setBeginInput = function(begin) {
+    setBeginInput = function (begin) {
         this.beginInput.sendKeys(begin);
     }
 
-    getBeginInput = function() {
+    getBeginInput = function () {
         return this.beginInput.getAttribute('value');
     }
 
-    setEndInput = function(end) {
+    setEndInput = function (end) {
         this.endInput.sendKeys(end);
     }
 
-    getEndInput = function() {
+    getEndInput = function () {
         return this.endInput.getAttribute('value');
     }
 
-    setDescriptionInput = function(description) {
+    setDescriptionInput = function (description) {
         this.descriptionInput.sendKeys(description);
     }
 
-    getDescriptionInput = function() {
+    getDescriptionInput = function () {
         return this.descriptionInput.getAttribute('value');
     }
 
-    profileSelectLastOption = function() {
+    profileSelectLastOption = function () {
         this.profileSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSelectOption = function(option) {
+    profileSelectOption = function (option) {
         this.profileSelect.sendKeys(option);
     }
 
-    getProfileSelect = function() {
+    getProfileSelect = function () {
         return this.profileSelect;
     }
 
-    getProfileSelectedOption = function() {
+    getProfileSelectedOption = function () {
         return this.profileSelect.element(by.css('option:checked')).getText();
     }
 

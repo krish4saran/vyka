@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Review e2e test', () => {
     let reviewComponentsPage: ReviewComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -45,7 +46,7 @@ describe('Review e2e test', () => {
         reviewDialogPage.profileSubjectSelectLastOption();
         reviewDialogPage.save();
         expect(reviewDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -79,51 +80,51 @@ export class ReviewDialogPage {
         return this.modalTitle.getText();
     }
 
-    setRatingInput = function(rating) {
+    setRatingInput = function (rating) {
         this.ratingInput.sendKeys(rating);
     }
 
-    getRatingInput = function() {
+    getRatingInput = function () {
         return this.ratingInput.getAttribute('value');
     }
 
-    setCommentsInput = function(comments) {
+    setCommentsInput = function (comments) {
         this.commentsInput.sendKeys(comments);
     }
 
-    getCommentsInput = function() {
+    getCommentsInput = function () {
         return this.commentsInput.getAttribute('value');
     }
 
-    setCreatedDateInput = function(createdDate) {
+    setCreatedDateInput = function (createdDate) {
         this.createdDateInput.sendKeys(createdDate);
     }
 
-    getCreatedDateInput = function() {
+    getCreatedDateInput = function () {
         return this.createdDateInput.getAttribute('value');
     }
 
-    setUserIdInput = function(userId) {
+    setUserIdInput = function (userId) {
         this.userIdInput.sendKeys(userId);
     }
 
-    getUserIdInput = function() {
+    getUserIdInput = function () {
         return this.userIdInput.getAttribute('value');
     }
 
-    profileSubjectSelectLastOption = function() {
+    profileSubjectSelectLastOption = function () {
         this.profileSubjectSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSubjectSelectOption = function(option) {
+    profileSubjectSelectOption = function (option) {
         this.profileSubjectSelect.sendKeys(option);
     }
 
-    getProfileSubjectSelect = function() {
+    getProfileSubjectSelect = function () {
         return this.profileSubjectSelect;
     }
 
-    getProfileSubjectSelectedOption = function() {
+    getProfileSubjectSelectedOption = function () {
         return this.profileSubjectSelect.element(by.css('option:checked')).getText();
     }
 

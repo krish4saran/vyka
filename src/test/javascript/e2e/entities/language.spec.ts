@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Language e2e test', () => {
     let languageComponentsPage: LanguageComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -37,7 +38,7 @@ describe('Language e2e test', () => {
         languageDialogPage.languageSelectLastOption();
         languageDialogPage.save();
         expect(languageDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -67,15 +68,15 @@ export class LanguageDialogPage {
         return this.modalTitle.getText();
     }
 
-    setLanguageSelect = function(language) {
+    setLanguageSelect = function (language) {
         this.languageSelect.sendKeys(language);
     }
 
-    getLanguageSelect = function() {
+    getLanguageSelect = function () {
         return this.languageSelect.element(by.css('option:checked')).getText();
     }
 
-    languageSelectLastOption = function() {
+    languageSelectLastOption = function () {
         this.languageSelect.all(by.tagName('option')).last().click();
     }
     save() {

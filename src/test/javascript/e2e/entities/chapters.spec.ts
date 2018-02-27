@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Chapters e2e test', () => {
     let chaptersComponentsPage: ChaptersComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -41,7 +42,7 @@ describe('Chapters e2e test', () => {
         chaptersDialogPage.levelSelectLastOption();
         chaptersDialogPage.save();
         expect(chaptersDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -73,35 +74,35 @@ export class ChaptersDialogPage {
         return this.modalTitle.getText();
     }
 
-    setDescriptionInput = function(description) {
+    setDescriptionInput = function (description) {
         this.descriptionInput.sendKeys(description);
     }
 
-    getDescriptionInput = function() {
+    getDescriptionInput = function () {
         return this.descriptionInput.getAttribute('value');
     }
 
-    setNumberOfClassesInput = function(numberOfClasses) {
+    setNumberOfClassesInput = function (numberOfClasses) {
         this.numberOfClassesInput.sendKeys(numberOfClasses);
     }
 
-    getNumberOfClassesInput = function() {
+    getNumberOfClassesInput = function () {
         return this.numberOfClassesInput.getAttribute('value');
     }
 
-    levelSelectLastOption = function() {
+    levelSelectLastOption = function () {
         this.levelSelect.all(by.tagName('option')).last().click();
     }
 
-    levelSelectOption = function(option) {
+    levelSelectOption = function (option) {
         this.levelSelect.sendKeys(option);
     }
 
-    getLevelSelect = function() {
+    getLevelSelect = function () {
         return this.levelSelect;
     }
 
-    getLevelSelectedOption = function() {
+    getLevelSelectedOption = function () {
         return this.levelSelect.element(by.css('option:checked')).getText();
     }
 

@@ -1,4 +1,4 @@
-import { browser, element, by } from 'protractor';
+import { browser, element, by, $ } from 'protractor';
 import { NavBarPage } from './../page-objects/jhi-page-objects';
 const path = require('path');
 
@@ -9,6 +9,7 @@ describe('Rate e2e test', () => {
     let rateComponentsPage: RateComponentsPage;
     const fileToUpload = '../../../../main/webapp/content/images/logo-jhipster.png';
     const absolutePath = path.resolve(__dirname, fileToUpload);
+    
 
     beforeAll(() => {
         browser.get('/');
@@ -44,7 +45,7 @@ describe('Rate e2e test', () => {
         rateDialogPage.classLengthSelectLastOption();
         rateDialogPage.save();
         expect(rateDialogPage.getSaveButton().isPresent()).toBeFalsy();
-    });
+    }); 
 
     afterAll(() => {
         navBarPage.autoSignOut();
@@ -78,59 +79,59 @@ export class RateDialogPage {
         return this.modalTitle.getText();
     }
 
-    setRateInput = function(rate) {
+    setRateInput = function (rate) {
         this.rateInput.sendKeys(rate);
     }
 
-    getRateInput = function() {
+    getRateInput = function () {
         return this.rateInput.getAttribute('value');
     }
 
-    setCreatedInput = function(created) {
+    setCreatedInput = function (created) {
         this.createdInput.sendKeys(created);
     }
 
-    getCreatedInput = function() {
+    getCreatedInput = function () {
         return this.createdInput.getAttribute('value');
     }
 
-    setUpdatedInput = function(updated) {
+    setUpdatedInput = function (updated) {
         this.updatedInput.sendKeys(updated);
     }
 
-    getUpdatedInput = function() {
+    getUpdatedInput = function () {
         return this.updatedInput.getAttribute('value');
     }
 
-    profileSubjectSelectLastOption = function() {
+    profileSubjectSelectLastOption = function () {
         this.profileSubjectSelect.all(by.tagName('option')).last().click();
     }
 
-    profileSubjectSelectOption = function(option) {
+    profileSubjectSelectOption = function (option) {
         this.profileSubjectSelect.sendKeys(option);
     }
 
-    getProfileSubjectSelect = function() {
+    getProfileSubjectSelect = function () {
         return this.profileSubjectSelect;
     }
 
-    getProfileSubjectSelectedOption = function() {
+    getProfileSubjectSelectedOption = function () {
         return this.profileSubjectSelect.element(by.css('option:checked')).getText();
     }
 
-    classLengthSelectLastOption = function() {
+    classLengthSelectLastOption = function () {
         this.classLengthSelect.all(by.tagName('option')).last().click();
     }
 
-    classLengthSelectOption = function(option) {
+    classLengthSelectOption = function (option) {
         this.classLengthSelect.sendKeys(option);
     }
 
-    getClassLengthSelect = function() {
+    getClassLengthSelect = function () {
         return this.classLengthSelect;
     }
 
-    getClassLengthSelectedOption = function() {
+    getClassLengthSelectedOption = function () {
         return this.classLengthSelect.element(by.css('option:checked')).getText();
     }
 

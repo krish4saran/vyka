@@ -25,3 +25,7 @@ services:
             service: jhipster-registry
         environment:
             - SPRING_CLOUD_CONFIG_SERVER_NATIVE_SEARCH_LOCATIONS=file:./central-config/docker-config/
+    vyka-hazelcast-management-center:
+        extends:
+            file: hazelcast-management-center.yml
+            service: vyka-hazelcast-management-center

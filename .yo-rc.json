@@ -9,7 +9,7 @@
     "packageFolder": "com/vyka",
     "serverPort": "8080",
     "authenticationType": "jwt",
-    "hibernateCache": "ehcache",
+    "hibernateCache": "hazelcast",
     "clusteredHttpSession": false,
     "websocket": "spring-websocket",
     "databaseType": "sql",

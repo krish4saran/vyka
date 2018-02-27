@@ -1,6 +1,8 @@
-import { Routes } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, Routes } from '@angular/router';
 
 import { UserRouteAccessService } from '../../shared';
+import { JhiPaginationUtil } from 'ng-jhipster';
 
 import { RateComponent } from './rate.component';
 import { RateDetailComponent } from './rate-detail.component';

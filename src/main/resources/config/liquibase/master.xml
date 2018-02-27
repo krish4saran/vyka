@@ -39,7 +39,6 @@
     <include file="config/liquibase/changelog/20180107191740_added_entity_constraints_Review.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180107191741_added_entity_constraints_Award.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180107191743_added_entity_constraints_Availability.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20180115043404_added_entity_constraints_PackageOrder.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043405_added_entity_constraints_Schedule.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043406_added_entity_constraints_OrderActivity.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20180115043407_added_entity_constraints_ScheduleActivity.xml" relativeToChangelogFile="false"/>
