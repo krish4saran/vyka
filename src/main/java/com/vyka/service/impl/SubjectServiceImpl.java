@@ -8,6 +8,7 @@ import com.vyka.service.dto.SubjectDTO;
 import com.vyka.service.mapper.SubjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,7 @@ public class SubjectServiceImpl implements SubjectService{
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value="subjects")
     public Page<SubjectDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Subjects");
         return subjectRepository.findAll(pageable)
@@ -75,6 +77,7 @@ public class SubjectServiceImpl implements SubjectService{
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value="subjects")
     public SubjectDTO findOne(Long id) {
         log.debug("Request to get Subject : {}", id);
         Subject subject = subjectRepository.findOne(id);

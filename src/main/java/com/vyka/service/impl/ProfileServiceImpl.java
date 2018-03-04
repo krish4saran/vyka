@@ -8,6 +8,9 @@ import com.vyka.service.dto.ProfileDTO;
 import com.vyka.service.mapper.ProfileMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
+
 
 /**
  * Service Implementation for managing Profile.
@@ -44,6 +48,7 @@ public class ProfileServiceImpl implements ProfileService{
      * @return the persisted entity
      */
     @Override
+    @CachePut(value = "profiles", key = "#result.id", condition = "#result != null")
     public ProfileDTO save(ProfileDTO profileDTO) {
         log.debug("Request to save Profile : {}", profileDTO);
         Profile profile = profileMapper.toEntity(profileDTO);
@@ -61,6 +66,7 @@ public class ProfileServiceImpl implements ProfileService{
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value="profiles")
     public Page<ProfileDTO> findAll(Pageable pageable) {
         log.debug("Request to get all Profiles");
         return profileRepository.findAll(pageable)
@@ -75,9 +81,10 @@ public class ProfileServiceImpl implements ProfileService{
      */
     @Override
     @Transactional(readOnly = true)
+	@Cacheable(value="profiles", condition = "#result != null")
     public ProfileDTO findOne(Long id) {
         log.debug("Request to get Profile : {}", id);
-        Profile profile = profileRepository.findOneWithEagerRelationships(id);
+        Profile profile = profileRepository.findOne(id);
         return profileMapper.toDto(profile);
     }
 

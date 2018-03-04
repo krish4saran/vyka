@@ -8,6 +8,9 @@ import com.vyka.service.dto.ProfileSubjectDTO;
 import com.vyka.service.mapper.ProfileSubjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -44,6 +47,10 @@ public class ProfileSubjectServiceImpl implements ProfileSubjectService{
      * @return the persisted entity
      */
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "profiles", key="#result.profileId"),
+            @CacheEvict(value = "profileSubjects", key = "#result.id")
+    })
     public ProfileSubjectDTO save(ProfileSubjectDTO profileSubjectDTO) {
         log.debug("Request to save ProfileSubject : {}", profileSubjectDTO);
         ProfileSubject profileSubject = profileSubjectMapper.toEntity(profileSubjectDTO);
@@ -75,6 +82,7 @@ public class ProfileSubjectServiceImpl implements ProfileSubjectService{
      */
     @Override
     @Transactional(readOnly = true)
+    @Cacheable(value="profileSubjects", key="#result.id", condition = "#result != null")
     public ProfileSubjectDTO findOne(Long id) {
         log.debug("Request to get ProfileSubject : {}", id);
         ProfileSubject profileSubject = profileSubjectRepository.findOne(id);
@@ -87,6 +95,7 @@ public class ProfileSubjectServiceImpl implements ProfileSubjectService{
      *  @param id the id of the entity
      */
     @Override
+    @CacheEvict(value = "profileSubjects")
     public void delete(Long id) {
         log.debug("Request to delete ProfileSubject : {}", id);
         profileSubjectRepository.delete(id);

@@ -8,6 +8,7 @@ import com.hazelcast.core.HazelcastInstance;
 import com.hazelcast.core.Hazelcast;
 import com.hazelcast.config.MapConfig;
 import com.hazelcast.config.EvictionPolicy;
+import com.hazelcast.config.ManagementCenterConfig;
 import com.hazelcast.config.MaxSizeConfig;
 
 import org.slf4j.Logger;
@@ -108,9 +109,20 @@ public class CacheConfiguration {
             }
         }
         config.getMapConfigs().put("default", initializeDefaultMapConfig());
-        config.getMapConfigs().put("com.vyka.domain.*", initializeDomainMapConfig(jHipsterProperties));
+        config.setManagementCenterConfig(initializeDefaultManagementCenterConfig(jHipsterProperties));
+        //config.getMapConfigs().put("com.vyka.domain.*", initializeDomainMapConfig(jHipsterProperties));
+        config.getMapConfigs().put("com.vyka.service.dto.*", initializeDomainMapConfig(jHipsterProperties));
         return Hazelcast.newHazelcastInstance(config);
     }
+    
+    private ManagementCenterConfig initializeDefaultManagementCenterConfig(JHipsterProperties jHipsterProperties) {
+        ManagementCenterConfig managementCenterConfig = new ManagementCenterConfig();
+        managementCenterConfig.setEnabled(jHipsterProperties.getCache().getHazelcast().getManagementCenter().isEnabled());
+        managementCenterConfig.setUrl(jHipsterProperties.getCache().getHazelcast().getManagementCenter().getUrl());
+        managementCenterConfig.setUpdateInterval(jHipsterProperties.getCache().getHazelcast().getManagementCenter().getUpdateInterval());
+        return managementCenterConfig;
+    }
+
 
     private MapConfig initializeDefaultMapConfig() {
         MapConfig mapConfig = new MapConfig();

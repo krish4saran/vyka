@@ -46,7 +46,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="subject_id" type="bigint">
-                <constraints unique="true" nullable="true" />
+                <constraints unique="false" nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>

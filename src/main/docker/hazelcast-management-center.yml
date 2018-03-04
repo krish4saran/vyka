@@ -3,4 +3,4 @@ services:
     vyka-hazelcast-management-center:
         image: hazelcast/management-center:3.9.1
         ports:
-            - 8180:8080
+            - 8081:8080

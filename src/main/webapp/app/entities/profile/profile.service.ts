@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response } from '@angular/http';
-import { Observable } from 'rxjs/Rx';
+import { Observable, Subject } from 'rxjs/Rx';
 import { SERVER_API_URL } from '../../app.constants';
 
 import { Profile } from './profile.model';
@@ -8,6 +8,10 @@ import { ResponseWrapper, createRequestOption } from '../../shared';
 
 @Injectable()
 export class ProfileService {
+
+    profileSubject = new Subject<Profile>();
+    profileSubjectUnavailable = new Subject<Error>();
+    profile: Profile;
 
     private resourceUrl = SERVER_API_URL + 'api/profiles';
     private resourceSearchUrl = SERVER_API_URL + 'api/_search/profiles';

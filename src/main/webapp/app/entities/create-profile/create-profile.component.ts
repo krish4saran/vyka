@@ -4,6 +4,7 @@ import { SubjectService } from '../subject/subject.service';
 import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Profile } from '../profile/profile.model';
+import { ProfileSubject } from '../profile-subject/profile-subject.model';
 import { ProfileService } from '../profile/profile.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription, Subject } from 'rxjs';
@@ -18,6 +19,7 @@ export class CreateProfileComponent implements OnInit {
 
   profile: Profile;
   userId: number;
+  profileSubjects: ProfileSubject[];
   profileSubject = new Subject<Profile>();
   profileSubjectUnavailable = new Subject<Error>();
   constructor(
@@ -60,7 +62,27 @@ export class CreateProfileComponent implements OnInit {
       if ( profile.profileSubjects === undefined || profile.profileSubjects.length === 0 ) {
         this.router.navigate(['subject'] , {relativeTo: this.activatedRoute});
       } else {
-        this.router.navigate(['level'] , {relativeTo: this.activatedRoute});
+        const profileSubjectArray = profile.profileSubjects;
+        if ( profileSubjectArray !== null ) {
+            // check if the profile subject is active/inactive
+            // If inactive then check what next steps
+            // If active then continue
+            profileSubjectArray.forEach( (profileSubjectData) => {
+              if ( !profileSubjectData.active ) {
+                  if ( profileSubjectData.level === null ) {
+                    this.router.navigate(['level'] , {relativeTo: this.activatedRoute});
+                  } else if ( profile.country === null || profile.state === null || profile.city === null) {
+                    this.router.navigate(['profile'] , {relativeTo: this.activatedRoute});
+                  } else if ( profile.educations === null ) {
+                    this.router.navigate(['education'] , {relativeTo: this.activatedRoute});
+                  } else if ( profile.availabilities === null ) {
+                    this.router.navigate(['availability'] , {relativeTo: this.activatedRoute});
+                  }
+              } else {
+                this.router.navigate(['subject'] , {relativeTo: this.activatedRoute});
+              }
+            });
+        }
       }
     }
   }

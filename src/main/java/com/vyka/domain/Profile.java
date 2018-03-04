@@ -20,7 +20,7 @@ import com.vyka.domain.enumeration.TimeZones;
  */
 @Entity
 @Table(name = "profile")
-@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+//@Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 @Document(indexName = "profile")
 public class Profile implements Serializable {
 
@@ -80,32 +80,32 @@ public class Profile implements Serializable {
     @Column(name = "time_zone")
     private TimeZones timeZone;
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<ProfileSubject> profileSubjects = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Education> educations = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Experience> experiences = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Award> awards = new HashSet<>();
 
-    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "profile", fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JsonIgnore
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Availability> availabilities = new HashSet<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @JoinTable(name = "profile_language",
                joinColumns = @JoinColumn(name="profiles_id", referencedColumnName="id"),

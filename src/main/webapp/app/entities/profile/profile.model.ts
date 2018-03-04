@@ -1,4 +1,5 @@
 import { BaseEntity } from './../../shared';
+import { ProfileSubject } from '../profile-subject';
 
 export const enum TimeZones {
     'IST',
@@ -24,7 +25,7 @@ export class Profile implements BaseEntity {
         public state?: string,
         public country?: string,
         public timeZone?: TimeZones,
-        public profileSubjects?: BaseEntity[],
+        public profileSubjects?: ProfileSubject[],
         public educations?: BaseEntity[],
         public experiences?: BaseEntity[],
         public awards?: BaseEntity[],
