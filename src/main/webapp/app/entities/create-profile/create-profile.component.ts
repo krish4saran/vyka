@@ -68,8 +68,8 @@ export class CreateProfileComponent implements OnInit {
             // If inactive then check what next steps
             // If active then continue
             profileSubjectArray.forEach( (profileSubjectData) => {
-              if ( !profileSubjectData.active ) {
-                  if ( profileSubjectData.level === null ) {
+              if ( profileSubjectData !== null && !profileSubjectData.active ) {
+                  if ( profileSubjectData.level === null ||  profileSubjectData.level === undefined ) {
                     this.router.navigate(['level'] , {relativeTo: this.activatedRoute});
                   } else if ( profile.country === null || profile.state === null || profile.city === null) {
                     this.router.navigate(['profile'] , {relativeTo: this.activatedRoute});

@@ -10,61 +10,8 @@ import { LevelComponent} from './level/level.component';
 import { ProfileService } from '../profile/profile.service';
 import { Profile } from '../profile/profile.model';
 import { Observable } from 'rxjs/Observable';
-
-// @Injectable()
-// export class CreateProfileResolver implements Resolve<Profile> {
-//     profile: Profile;
-//     constructor(private profileService: ProfileService,
-//                 private router: Router,
-//                 private jhiAlertService: JhiAlertService ) {}
-
-//     resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Profile> {
-//         let userId = route.params['id'];
-
-//         if ( userId === undefined || userId === null) {
-//             return Observable.of(null);
-//         }
-//         // if the id is not a number then send the user to home page
-//         if ( isNaN(+userId) ) {
-//             this.jhiAlertService.error('invalid user id', null, null);
-//             this.router.navigate(['/home']);
-//             return Observable.of(null);
-//         }
-
-//         userId = +userId;
-//         this.profile = this.findProfileByUserId(userId);
-
-//         // if still profile is not created
-//         if ( this.profile === null || this.profile === undefined ) {
-//             this.createProfile(userId);
-//             this.profile = this.findProfileByUserId(userId);
-//         }
-
-//          return Observable.of(this.profile);
-//     }
-
-//     createProfile(userId: number): Profile {
-//         this.profile = new Profile();
-//         this.profile.userId = userId;
-//         this.profile.description = ' ';
-//         this.profileService.create(this.profile).subscribe( (profile) => {
-//           this.profile = profile;
-//         });
-//         return this.profile;
-//     }
-
-//     findProfileByUserId(userId: number): Profile {
-//         this.profileService.findByUserId(userId).subscribe((profile) => {
-//             if ( profile === null || profile === undefined ) {
-//                 this.profile = this.createProfile(userId);
-//             }else {
-//                 this.profile = profile;
-//             }
-//         });
-//         return this.profile;
-//     }
-// }
-
+import { ProfileComponent } from './profile/profile.component';
+import { ProfessionComponent } from './profession/profession.component';
 export const createProfileRoute: Routes = [
     {
         path: 'create-profile/:id',
@@ -82,6 +29,14 @@ export const createProfileRoute: Routes = [
             {
                 path: 'level',
                 component: LevelComponent
+            },
+            {
+                path: 'profile',
+                component: ProfileComponent
+            },
+            {
+                path: 'profession',
+                component: ProfessionComponent
             }
         ]
     },

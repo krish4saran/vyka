@@ -1,5 +1,4 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-
 import { VykaProfileModule } from './profile/profile.module';
 import { VykaSubjectModule } from './subject/subject.module';
 import { VykaProfileSubjectModule } from './profile-subject/profile-subject.module';

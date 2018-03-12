@@ -12,6 +12,8 @@ import {
 } from './create-profile.route';
 import { VykaProfileModule } from '../profile/profile.module';
 import { CreateProfileService } from './create-profile.service';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfessionComponent } from './profession/profession.component';
 
 const ENTITY_STATES = [
   ...createProfileRoute
@@ -25,7 +27,9 @@ const ENTITY_STATES = [
   declarations: [
       CreateProfileComponent,
       LevelComponent,
-      CreateProfileSubjectComponent
+      CreateProfileSubjectComponent,
+      ProfileComponent,
+      ProfessionComponent
     ],
   providers: [
    // CreateProfileResolver

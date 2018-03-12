@@ -53,7 +53,7 @@ export class CreateProfileSubjectComponent implements OnInit {
 
   addProfileSubject(id: number) {
       // Get the profile from service
-      this.profile = this.createProfileService.getProfile();
+      this.profile = this.createProfileService.getProfile(this.route);
       // create the profile subject
       const profileSubject: ProfileSubject = new ProfileSubject();
       profileSubject.profileId = this.profile.id;

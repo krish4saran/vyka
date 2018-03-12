@@ -5,6 +5,7 @@ import { ProfileService } from '../profile/profile.service';
 import { JhiAlertService } from 'ng-jhipster';
 import { ProfileSubject } from '../profile-subject/profile-subject.model';
 import { ProfileSubjectService } from '../profile-subject/profile-subject.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Injectable()
 export class CreateProfileService {
@@ -29,7 +30,18 @@ export class CreateProfileService {
        );
      }
 
-     public getProfile(): Profile {
+     public getProfile(route: ActivatedRoute): Profile {
+       let userId = null;
+      if ( this.profile === undefined ) {
+          route.parent.params.subscribe ((params) => {
+          userId = +params['id'];
+        }
+      )
+      this.findProfileByUserId(userId);
+      this.profileSubject.subscribe( (profile) => {
+        this.profile = profile
+      });
+      }
       return this.profile;
     }
 
